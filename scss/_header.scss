@@ -1,0 +1,71 @@
+header {
+  background-color: map-get($colors, main);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 1;
+}
+
+.navbar-brand {
+  font-size: 3em;
+  span {
+    align-self: flex-end;
+    padding-left: 8px;
+  }
+}
+
+.navbar-toggler-icon {
+  color: white;
+  outline: none;
+}
+
+#main-logo {
+  width: 250px;
+}
+
+.offcanvas {
+  background-color: rgba(0, 0, 0, .7);
+  border-left: clr(secondary) solid 1px;
+}
+
+.offcanvas-header {
+  justify-content: flex-end;
+  padding: .5rem 1rem;
+}
+
+.offcanvas-body {
+  padding: .5rem 1rem;
+}
+
+//drawer media queries
+@media (min-width : 992px) {
+  .offcanvas {
+    visibility: visible;
+    position: relative;
+    flex-grow: 0;
+  }
+
+  .offcanvas-end {
+    max-width: 70vw;
+  }
+
+  .navbar-expand-lg {
+    flex-grow: 0;
+  }
+}
+
+@media (max-width : 992px) {
+  .offcanvas {
+    width : 250px;
+  }
+
+  .offcanvas-start-lg {
+    top          : 0;
+    left         : 0;
+    border-right : 1px solid rgba(0, 0, 0, .2);
+    transform    : translateX(-100%);
+  }
+}

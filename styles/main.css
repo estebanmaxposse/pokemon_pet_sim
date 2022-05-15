@@ -1,0 +1,73 @@
+@font-face {
+  font-family: "pokemon_fire_red";
+  src: url("../assets/pokemon_fire_red.woff") format("woff"); }
+
+header {
+  background-color: #FF891C; }
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 1; }
+
+.navbar-brand {
+  font-size: 3em; }
+  .navbar-brand span {
+    align-self: flex-end;
+    padding-left: 8px; }
+
+.navbar-toggler-icon {
+  color: white;
+  outline: none; }
+
+#main-logo {
+  width: 250px; }
+
+.offcanvas {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-left: clr(secondary) solid 1px; }
+
+.offcanvas-header {
+  justify-content: flex-end;
+  padding: .5rem 1rem; }
+
+.offcanvas-body {
+  padding: .5rem 1rem; }
+
+@media (min-width: 992px) {
+  .offcanvas {
+    visibility: visible;
+    position: relative;
+    flex-grow: 0; }
+  .offcanvas-end {
+    max-width: 70vw; }
+  .navbar-expand-lg {
+    flex-grow: 0; } }
+
+@media (max-width: 992px) {
+  .offcanvas {
+    width: 250px; }
+  .offcanvas-start-lg {
+    top: 0;
+    left: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    transform: translateX(-100%); } }
+
+body {
+  min-height: 100vh;
+  background-image: url(https://i.imgur.com/sO4KAvL.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "pokemon_fire_red", sans-serif;
+  font-size: 1em;
+  color: white; }
+
+a {
+  text-decoration: none;
+  color: white;
+  padding: 0; }
+  a:hover {
+    text-decoration: none;
+    color: white; }

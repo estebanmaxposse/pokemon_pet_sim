@@ -1,0 +1,21 @@
+//general styles
+body {
+  min-height: 100vh;
+  background-image: url(https://i.imgur.com/sO4KAvL.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: $font-main;
+  font-size: 1em;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  padding: 0;
+  &:hover {
+    text-decoration: none;
+    color: white;
+  }
+}

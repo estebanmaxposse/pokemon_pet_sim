@@ -29,6 +29,10 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+let food = getRandomInt();
+let rest = getRandomInt();
+let fun = getRandomInt();
+
 function mySubstraction(res, num) {
   let x = res - num;
   if (x < 0) {
@@ -36,10 +40,6 @@ function mySubstraction(res, num) {
   }
   return x;
 }
-
-let food = getRandomInt();
-let rest = getRandomInt();
-let fun = getRandomInt();
 
 for (var day = 1; day <= 7; day++) {
   alert("Day " + day);
