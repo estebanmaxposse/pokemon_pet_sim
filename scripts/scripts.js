@@ -6,6 +6,44 @@ let playerName;
 playerName = prompt("So, what is your name?") || "Player";
 alert("Right! So your name is " + playerName + "!");
 
+const GENDER_MALE = "male";
+const GENDER_FEMALE = "female";
+
+// Pokemon object to be implemented at a later date, this is a mockup of how the Pokemon object would work
+class Pokemon {
+  constructor(name, gender, sprite, exp, lv, hunger, rest, fun, happiness) {
+    this.name = name;
+    this.gender = gender;
+    this.sprite = sprite;
+    this.exp = parseInt(exp);
+    this.lv = parseInt(lv);
+    this.hunger = parseInt(hunger);
+    this.rest = parseInt(rest);
+    this.fun = parseInt(fun);
+    this.happiness = parseInt((hunger + rest + fun)/3);
+
+    this.get_gender = function() {
+      if (this.gender === GENDER_MALE) {
+        return "male"
+      }
+      else if (this.gender === GENDER_FEMALE) {
+        return "female"
+      }
+      return "unknown"
+    }
+
+    //once I know how to get sprites from APIs I'll finish this function
+    this.get_sprite = function() {
+      if (this.name === "pichu") {
+        return console.log("https://i.imgur.com/ROK2yzd.png")
+      }
+    }
+  }
+}
+
+const pichu = new Pokemon("Pichu", GENDER_MALE, "no_sprite_yet", 124, 2, 24, 56, 99);
+console.log(pichu);
+
 alert("First, let me introduce you to your very own Pokémon: Pichu! This little boy is an electric type Pokémon. Pichus are often social Pokémons known for their playful and mischievous demeanor.");
 
 let pokemonName;
@@ -40,6 +78,30 @@ function mySubstraction(res, num) {
   }
   return x;
 }
+
+var events = ["Apparently today there's gonna be some crazy discounts at the PokeShop in town!", "Brrr... The weather suddenly got really cold. Better pack a jacket!", "It seems something is happening in the forest nearby. Maybe you should check it out!", "Wear some sunscreen today because it's gonna be really hot!", "There's a special discount today at the PokePark if you bring along your Pokémon! You should check it out!", "A mysterious Pokémon has apparently been sighted near the beach! You should be careful if you plan on going there!", "A new festival is in town! Wanna go check it out?"];
+
+var eventsLength = events.length;
+
+for (let i = 0; i < eventsLength; i++) {
+  console.log(events[i])
+}
+
+const days = [];
+
+class Day {
+  constructor(number, x) {
+    this.number = parseInt(number);
+    this.event = events[parseInt(x)];
+  }
+}
+
+days.push(new Day(1, 1));
+days.push(new Day(2, 2));
+
+var dayEvents = days.map(days => "Day " + days.number + " - " + days.event)
+
+console.log(dayEvents);
 
 for (var day = 1; day <= 7; day++) {
   alert("Day " + day);
