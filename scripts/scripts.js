@@ -81,11 +81,11 @@ function mySubstraction(res, num) {
 
 var events = ["Apparently today there's gonna be some crazy discounts at the PokeShop in town!", "Brrr... The weather suddenly got really cold. Better pack a jacket!", "It seems something is happening in the forest nearby. Maybe you should check it out!", "Wear some sunscreen today because it's gonna be really hot!", "There's a special discount today at the PokePark if you bring along your Pokémon! You should check it out!", "A mysterious Pokémon has apparently been sighted near the beach! You should be careful if you plan on going there!", "A new festival is in town! Wanna go check it out?"];
 
-var eventsLength = events.length;
-
-for (let i = 0; i < eventsLength; i++) {
-  console.log(events[i])
-}
+// var eventsLength = events.length;
+//
+// for (let i = 0; i < eventsLength; i++) {
+//   console.log(events[i])
+// }
 
 const days = [];
 
@@ -98,13 +98,16 @@ class Day {
 
 days.push(new Day(1, 1));
 days.push(new Day(2, 2));
+days.push(new Day(3, 4));
+days.push(new Day(4, 1));
+days.push(new Day(5, 3));
+days.push(new Day(6, 6));
+days.push(new Day(7, 5));
 
 var dayEvents = days.map(days => "Day " + days.number + " - " + days.event)
 
-console.log(dayEvents);
-
-for (var day = 1; day <= 7; day++) {
-  alert("Day " + day);
+for (var index = 0; index <= 6; index++) {
+  alert(dayEvents[index]);
   if (food < 50) {
     const feedResponse = prompt(pokemonName + " seems to be hungry! Type FEED if you want to give him some treats!")?.toLowerCase();
     if (feedResponse === "feed") {
@@ -170,7 +173,7 @@ for (var day = 1; day <= 7; day++) {
     alert("Pichu seems happy!")
   }
   fun = mySubstraction(fun, 20);
-  if (day == 7) {
+  if (index == 7) {
     alert("You made it to the end of the week!");
   }
 }
