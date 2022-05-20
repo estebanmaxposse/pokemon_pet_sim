@@ -115,7 +115,6 @@ alert("Hello there! Welcome to the world of pokémon! My name is Oak! People cal
 alert("This world is inhabited by creatures called Pokémon! For some people, Pokémon are pets. Other use them for fights. Myself… I study Pokémon as a profession.");
 
 var pokemon1 = new Pokemon("Pichu", GENDER_MALE, "no_sprite_yet", 56, 1, 24, 56, 99);
-console.log(pokemon1);
 
 let playerName = prompt("So, what is your name?") || "Player";
 alert(`Right! So your name is ${playerName}!`);
@@ -145,12 +144,6 @@ var events = [
   "A new festival is in town! Wanna go check it out?",
   `It's Chesto Berry season! They're ${pokemon1.customName}'s favorite! You should go grab some!'`
 ];
-
-// var eventsLength = events.length;
-//
-// for (let i = 0; i < eventsLength; i++) {
-//   console.log(events[i])
-// }
 
 const days = [];
 
