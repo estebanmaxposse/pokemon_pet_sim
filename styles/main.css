@@ -12,21 +12,31 @@ nav {
   opacity: 1; }
 
 .navbar-brand {
-  font-size: 3em; }
+  font-size: 3rem; }
   .navbar-brand span {
     align-self: flex-end;
     padding-left: 8px; }
 
-.navbar-toggler-icon {
-  color: white;
-  outline: none; }
+.nav-link {
+  text-align: right;
+  font-size: 2.5rem;
+  color: white; }
+  .nav-link:hover {
+    text-decoration: none;
+    color: inherit; }
+
+.navbar-toggler {
+  font-size: 2.25rem; }
+  .navbar-toggler-icon {
+    color: white;
+    outline: none; }
 
 #main-logo {
   width: 250px; }
 
 .offcanvas {
-  background-color: rgba(0, 0, 0, 0.7);
-  border-left: clr(secondary) solid 1px; }
+  background-color: rgba(255, 137, 28, 0.7);
+  border-left: white solid 1px; }
 
 .offcanvas-header {
   justify-content: flex-end;
@@ -61,8 +71,19 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   font-family: "pokemon_fire_red", sans-serif;
-  font-size: 1em;
-  color: white; }
+  font-size: 4em;
+  color: white;
+  display: grid;
+  grid-gap: 0;
+  grid-template-rows: auto 1fr 3fr 1fr;
+  grid-template-areas: "header" "gauges" "content" "buttons";
+  align-items: center;
+  justify-items: center; }
+
+header {
+  grid-area: header;
+  align-self: start;
+  width: -webkit-fill-available; }
 
 a {
   text-decoration: none;
@@ -71,3 +92,60 @@ a {
   a:hover {
     text-decoration: none;
     color: white; }
+
+.modal, .form-control {
+  color: black;
+  font-size: 3rem; }
+
+.btn {
+  font-size: 2.5rem; }
+
+.modal-title {
+  font-size: 3.5rem; }
+
+.gauge-container {
+  grid-area: gauges; }
+
+.progress-gauge {
+  width: 100%; }
+
+#food-gauge {
+  width: 10%;
+  height: 30px;
+  background-color: yellow;
+  text-align: center;
+  line-height: 30px;
+  color: black; }
+
+#main-pokemon {
+  width: 60%;
+  height: auto; }
+
+.pokemon-container {
+  height: 100%;
+  grid-area: content;
+  align-self: center;
+  display: flex;
+  align-items: center; }
+  .pokemon-container .pokemon {
+    display: flex;
+    justify-content: center; }
+
+.main-buttons {
+  grid-area: buttons;
+  align-items: center; }
+  .main-buttons .btn-primary {
+    margin: 8px;
+    font-size: 3.5rem; }
+
+#play-button {
+  background-color: #7ACD41;
+  border: 8px solid black; }
+
+#feed-button {
+  background-color: #FF891C;
+  border: 8px solid black; }
+
+#rest-button {
+  background-color: #4192CD;
+  border: 8px solid black; }

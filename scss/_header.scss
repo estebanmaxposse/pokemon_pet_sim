@@ -10,16 +10,33 @@ nav {
 }
 
 .navbar-brand {
-  font-size: 3em;
+  font-size: 3rem;
   span {
     align-self: flex-end;
     padding-left: 8px;
   }
 }
 
-.navbar-toggler-icon {
+.nav-link {
+  text-align: right;
+  font-size: 2.5rem;
   color: white;
-  outline: none;
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.navbar-toggler {
+  font-size: 2.25rem;
+  &-icon {
+    color: white;
+    outline: none;
+  }
+}
+
+.navbar-toggler-icon {
+
 }
 
 #main-logo {
@@ -27,8 +44,8 @@ nav {
 }
 
 .offcanvas {
-  background-color: rgba(0, 0, 0, .7);
-  border-left: clr(secondary) solid 1px;
+  background-color: rgba(255, 137, 28, .7);
+  border-left: white solid 1px;
 }
 
 .offcanvas-header {
