@@ -112,8 +112,24 @@ class Day {
 
 var introModal = document.getElementById('intro-msg-1');
 
+// Gauge handler
+var foodGauge = document.getElementById(`food-gauge`);
+var foodValue = foodGauge.getAttribute(`value`);
+console.log(foodValue);
+
+// foodGauge.innerHTML = pokemon1.hunger;
+// foodGauge.style.width = pokemon1.hunger + "%";
+// console.log(pokemon1);
+
+function progressFoodGauge() {
+  pokemon1.addHunger(40);
+  foodGauge.setAttribute("value", pokemon1.hunger);
+  console.log(foodValue);
+}
+
 $(window).on('load',function(){
     $('#intro-msg-1').modal('show');
+    foodGauge.setAttribute("value", pokemon1.hunger);
 });
 
 var playerName = "Player";
@@ -195,6 +211,32 @@ days.push(new Day(6, 6));
 days.push(new Day(7, 5));
 
 var dayEvents = days.map(days => "Day " + days.number + " - " + days.event)
+
+//
+// function progressFoodGauge() {
+//   pokemon1.addHunger(40);
+//   if (y == 0) {
+//     var foodWidth = pokemon1.hunger;
+//     var currentFood = foodWidth;
+//     console.log(currentFood);
+//     var foodId = setInterval(frame, 50);
+//     function frame() {
+//       if (currentFood >= 100) {
+//         clearInterval(foodId);
+//         console.log(y);
+//       } else {
+//         if (currentFood < foodWidth) {
+//           currentFood++;
+//         }
+//         foodGauge.style.width = currentFood + "%";
+//         foodGauge.innerHTML = currentFood + "%";
+//       }
+//     }
+//   }
+//   console.log(pokemon1)
+// }
+
+
 
 //Handles day to day events
 // for (var index = 0; index < days.length; index++) {

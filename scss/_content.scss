@@ -65,20 +65,31 @@ a {
 }
 
 .gauge-container {
+  width: 100%;
   grid-area: gauges;
 }
 
+.gauge {
+  display: flex;
+  flex-direction: column;
+}
+
 .progress-gauge {
+  padding: 16px;
   width: 100%;
 }
 
 #food-gauge {
-  width: 10%;
-  height: 30px;
-  background-color: yellow;
-  text-align: center;
-  line-height: 30px;
-  color: black;
+  height: 50px;
+  // line-height: 30px;
+  &::-webkit-meter-bar {
+    background: none;
+    background-color: black;
+  }
+  &::-webkit-meter-optimum-value {
+    background-color: green;
+    background-size: 100% 100%;
+  }
 }
 
 #main-pokemon {

@@ -68,13 +68,24 @@
       </div>
     </div>
 
-    <!-- <div class="gauge-container">
-      <div class="progress-gauge">
-        <div class="gauge" id="food-gauge">
-          10%
-        </div>
+    <div class="gauge-container">
+      <div class="gauge">
+        <label for="food-gauge">Food</label>
+        <meter id="food-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
       </div>
-    </div> -->
+      <div class="gauge">
+        <label for="food-gauge">Food</label>
+        <meter id="food-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
+      </div>
+      <div class="gauge">
+        <label for="food-gauge">Food</label>
+        <meter id="food-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
+      </div>
+      <div class="gauge">
+        <label for="food-gauge">Food</label>
+        <meter id="food-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
+      </div>
+    </div>
 
     <div class="pokemon-container">
       <div class="pokemon">
@@ -83,8 +94,8 @@
     </div>
 
     <div class="main-buttons row container-fluid">
-      <button type="button" class="btn btn-primary col" id="play-button">PLAY</button>
-      <button type="button" class="btn btn-primary col" id="feed-button">FEED</button>
+      <button type="button" class="btn btn-primary col" id="play-button" >PLAY</button>
+      <button type="button" class="btn btn-primary col" id="feed-button" onclick="progressFoodGauge()">FEED</button>
       <button type="button" class="btn btn-primary col" id="rest-button">REST</button>
     </div>
 
