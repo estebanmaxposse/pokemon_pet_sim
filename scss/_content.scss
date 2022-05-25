@@ -37,12 +37,31 @@ a {
   font-size: 3rem;
 }
 
+.form-control {
+  background-color: white;
+  border: 4px solid rgba(0, 0, 0, .7);
+  &:focus {
+    background-color: white;
+    border-color: black;
+  }
+}
+
 .btn {
   font-size: 2.5rem;
 }
 
-.modal-title {
-  font-size: 3.5rem;
+.modal-content {
+  background-color: #FF891C;
+  border: 8px solid black;
+  .modal-header {
+    border-bottom: 4px dashed black;
+  }
+  .modal-title {
+    font-size: 3.5rem;
+  }
+  .modal-footer {
+    border-top: 4px dashed black;
+  }
 }
 
 .gauge-container {

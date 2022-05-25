@@ -116,10 +116,6 @@ $(window).on('load',function(){
     $('#intro-msg-1').modal('show');
 });
 
-// alert("Pokémon Pet Simulator");
-// alert("Hello there! Welcome to the world of pokémon! My name is Oak! People call me the pokémon Prof!");
-// alert("This world is inhabited by creatures called Pokémon! For some people, Pokémon are pets. Other use them for fights. Myself… I study Pokémon as a profession.");
-
 var playerName = "Player";
 
 var pokemon1 = new Pokemon("Pichu", GENDER_MALE, "no_sprite_yet", 56, 1, 24, 56, 99);
@@ -135,6 +131,7 @@ const introMessages = [
   ["Prof. Oak", `{playerName}! {pokemon1.customName}! Your very own Pokémon legend is about to unfold! A world of dreams and adventures with Pokémon awaits! Let's go!`],
 ]
 
+// Modal's handler
 let msgIndex = 1;
 function continueIntro() {
   if (msgIndex >= 8) {
@@ -175,24 +172,7 @@ function continueIntro() {
   msgIndex++;
 }
 
-// let playerName = prompt("So, what is your name?") || "Player";
-// alert(`Right! So your name is ${playerName}!`);
-//
-// alert(`First, let me introduce you to your very own Pokémon: ${pokemon1.species}! This little boy is an electric type Pokémon. ${pokemon1.species}s are often social Pokémons known for their playful and mischievous demeanor.`);
-//
-// pokemon1.customName = prompt(`What will be ${pokemon1.species}'s name?`) || pokemon1.species;
-
 const REGEX_POKEMON_NAME = /\D+$/i;
-
-// while (!REGEX_POKEMON_NAME.test(pokemon1.customName)) {
-//   pokemon1.customName = prompt("That's not a name! Choose another one");
-// }
-
-// alert(`So ${pokemon1.pokemonPronoun()} name is ${pokemon1.customName}!`);
-//
-// alert(`${playerName}! ${pokemon1.customName}! Your very own Pokémon legend is about to unfold! A world of dreams and adventures with Pokémon awaits! Let's go!`)
-//
-// alert("You can stop playing by typing ESC.")
 
 var events = [
   "Apparently today there's gonna be some crazy discounts at the PokeShop in town!",
