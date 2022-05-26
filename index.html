@@ -53,7 +53,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="intro-msg-1-toggle">???</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close button" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body" id="modal-text">
             Hello there! Welcome to the world of pokémon! My name is Oak! People call me the pokémon Prof!.
@@ -62,7 +62,7 @@
             <input type="text" placeholder="Name" class="form-control" id="player-name">
           </div>
           <div class="modal-footer">
-            <button class="btn btn-primary" onclick="continueIntro()">Next</button>
+            <button class="btn btn-primary button" onclick="continueIntro()">Next</button>
           </div>
         </div>
       </div>
@@ -94,10 +94,12 @@
     </div>
 
     <div class="main-buttons row container-fluid">
-      <button type="button" class="btn btn-primary col" id="play-button" onclick="progressGauge(`play`)">PLAY</button>
-      <button type="button" class="btn btn-primary col" id="feed-button" onclick="progressGauge(`feed`)">FEED</button>
-      <button type="button" class="btn btn-primary col" id="rest-button" onclick="progressGauge(`rest`)">REST</button>
+      <button type="button" class="btn btn-primary col button" id="play-button" onclick="progressGauge(`play`)">PLAY</button>
+      <button type="button" class="btn btn-primary col button" id="feed-button" onclick="progressGauge(`feed`)">FEED</button>
+      <button type="button" class="btn btn-primary col button" id="rest-button" onclick="progressGauge(`rest`)">REST</button>
     </div>
+
+    <button type="button" class="btn btn-primary col button" name="button" onclick="reset()">RESET</button>
 
     <script src="scripts/scripts.js"></script>
 

@@ -75,12 +75,12 @@ class Pokemon {
 
   getGender() {
     if (this.gender === GENDER_MALE) {
-      return "male"
+      return "male";
     }
     else if (this.gender === GENDER_FEMALE) {
-      return "female"
+      return "female";
     }
-    return "unknown"
+    return "unknown";
   }
 
   pokemonPronoun() {
@@ -110,7 +110,21 @@ class Day {
   }
 }
 
-var introModal = document.getElementById('intro-msg-1');
+// Sound effects
+var buttonFX = new Audio("emerald_0005.wav");
+var audibleButton = document.querySelectorAll("button");
+
+audibleButton.forEach(button => {
+  button.addEventListener("click", () => {
+    buttonFX.play();
+  });
+});
+
+var mainBG = new Audio("bg-theme_mixdown.mp3");
+mainBG.loop = true;
+function playOnBG() {
+  mainBG.play();
+}
 
 // Gauge handler
 var funGauge = document.getElementById(`fun-gauge`);
@@ -151,10 +165,23 @@ function progressGauge(buttonType) {
   happinessGauge.setAttribute("value", pokemon1.happiness)
 }
 
+function reset() {
+  pokemon1.fun = 0;
+  pokemon1.hunger = 0;
+  pokemon1.rest = 0;
+  pokemon1.happiness = 0;
+  initialStats();
+}
+
 $(window).on('load',function(){
     $('#intro-msg-1').modal('show');
     initialStats();
+    playOnBG();
 });
+
+//Game intro
+
+var introModal = document.getElementById('intro-msg-1');
 
 var playerName = "Player";
 
@@ -211,8 +238,6 @@ function continueIntro() {
 
   msgIndex++;
 }
-
-const REGEX_POKEMON_NAME = /\D+$/i;
 
 var events = [
   "Apparently today there's gonna be some crazy discounts at the PokeShop in town!",
