@@ -113,23 +113,47 @@ class Day {
 var introModal = document.getElementById('intro-msg-1');
 
 // Gauge handler
+var funGauge = document.getElementById(`fun-gauge`);
+var funValue = funGauge.getAttribute(`value`);
+
 var foodGauge = document.getElementById(`food-gauge`);
 var foodValue = foodGauge.getAttribute(`value`);
-console.log(foodValue);
 
-// foodGauge.innerHTML = pokemon1.hunger;
-// foodGauge.style.width = pokemon1.hunger + "%";
-// console.log(pokemon1);
+var restGauge = document.getElementById(`rest-gauge`);
+var restValue = restGauge.getAttribute(`value`);
 
-function progressFoodGauge() {
-  pokemon1.addHunger(40);
+var happinessGauge = document.getElementById(`happiness-gauge`);
+var happinessValue = happinessGauge.getAttribute(`value`);
+
+function initialStats() {
+  funGauge.setAttribute("value", pokemon1.fun);
   foodGauge.setAttribute("value", pokemon1.hunger);
-  console.log(foodValue);
+  restGauge.setAttribute("value", pokemon1.rest);
+  happinessGauge.setAttribute("value", pokemon1.happiness);
+}
+
+function progressGauge(buttonType) {
+  if (buttonType == "play") {
+    pokemon1.addFun(30);
+    funGauge.setAttribute("value", pokemon1.fun);
+    console.log(pokemon1.fun);
+  }
+  else if (buttonType == "feed") {
+    pokemon1.addHunger(40);
+    foodGauge.setAttribute("value", pokemon1.hunger);
+    console.log(pokemon1.hunger);
+  }
+  else if (buttonType == "rest") {
+    pokemon1.addRest(40);
+    restGauge.setAttribute("value", pokemon1.rest);
+    console.log(pokemon1.rest);
+  }
+  happinessGauge.setAttribute("value", pokemon1.happiness)
 }
 
 $(window).on('load',function(){
     $('#intro-msg-1').modal('show');
-    foodGauge.setAttribute("value", pokemon1.hunger);
+    initialStats();
 });
 
 var playerName = "Player";

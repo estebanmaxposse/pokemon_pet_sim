@@ -70,20 +70,20 @@
 
     <div class="gauge-container">
       <div class="gauge">
-        <label for="food-gauge">Food</label>
-        <meter id="food-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
+        <label for="fun-gauge">Fun</label>
+        <meter id="fun-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
       </div>
       <div class="gauge">
         <label for="food-gauge">Food</label>
         <meter id="food-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
       </div>
       <div class="gauge">
-        <label for="food-gauge">Food</label>
-        <meter id="food-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
+        <label for="rest-gauge">Rest</label>
+        <meter id="rest-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
       </div>
       <div class="gauge">
-        <label for="food-gauge">Food</label>
-        <meter id="food-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
+        <label for="happiness-gauge">Happiness</label>
+        <meter id="happiness-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
       </div>
     </div>
 
@@ -94,9 +94,9 @@
     </div>
 
     <div class="main-buttons row container-fluid">
-      <button type="button" class="btn btn-primary col" id="play-button" >PLAY</button>
-      <button type="button" class="btn btn-primary col" id="feed-button" onclick="progressFoodGauge()">FEED</button>
-      <button type="button" class="btn btn-primary col" id="rest-button">REST</button>
+      <button type="button" class="btn btn-primary col" id="play-button" onclick="progressGauge(`play`)">PLAY</button>
+      <button type="button" class="btn btn-primary col" id="feed-button" onclick="progressGauge(`feed`)">FEED</button>
+      <button type="button" class="btn btn-primary col" id="rest-button" onclick="progressGauge(`rest`)">REST</button>
     </div>
 
     <script src="scripts/scripts.js"></script>

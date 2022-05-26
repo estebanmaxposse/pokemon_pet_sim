@@ -119,22 +119,20 @@ a {
 
 .gauge-container {
   width: 100%;
-  grid-area: gauges; }
+  grid-area: gauges;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  justify-items: center; }
 
 .gauge {
   display: flex;
   flex-direction: column; }
-
-.progress-gauge {
-  padding: 16px;
-  width: 100%; }
-
-#food-gauge {
-  height: 50px; }
-  #food-gauge::-webkit-meter-bar {
+  .gauge::-webkit-meter-bar {
     background: none;
     background-color: black; }
-  #food-gauge::-webkit-meter-optimum-value {
+  .gauge::-webkit-meter-optimum-value {
     background-color: green;
     background-size: 100% 100%; }
 
