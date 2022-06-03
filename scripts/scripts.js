@@ -1,9 +1,7 @@
 const GENDER_MALE = "male";
 const GENDER_FEMALE = "female";
 
-function getRandomInt(min, max) {
-  min = Math.ceil(0);
-  max = Math.floor(100);
+function getRandomInt(min=0, max=100) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -139,7 +137,7 @@ var restValue = restGauge.getAttribute(`value`);
 var happinessGauge = document.getElementById(`happiness-gauge`);
 var happinessValue = happinessGauge.getAttribute(`value`);
 
-function initialStats() {
+function getStats() {
   funGauge.setAttribute("value", pokemon1.fun);
   foodGauge.setAttribute("value", pokemon1.hunger);
   restGauge.setAttribute("value", pokemon1.rest);
@@ -149,43 +147,43 @@ function initialStats() {
 function progressGauge(buttonType) {
   if (buttonType == "play") {
     pokemon1.addFun(30);
-    funGauge.setAttribute("value", pokemon1.fun);
+    pokemon1.addRest(-20);
+    getStats();
     console.log(pokemon1.fun);
   }
   else if (buttonType == "feed") {
     pokemon1.addHunger(40);
-    foodGauge.setAttribute("value", pokemon1.hunger);
+    pokemon1.addRest(-10);
+    getStats();
     console.log(pokemon1.hunger);
   }
   else if (buttonType == "rest") {
     pokemon1.addRest(40);
-    restGauge.setAttribute("value", pokemon1.rest);
+    getStats();
+    newDay();
     console.log(pokemon1.rest);
   }
   happinessGauge.setAttribute("value", pokemon1.happiness)
 }
 
 function reset() {
-  pokemon1.fun = 0;
-  pokemon1.hunger = 0;
-  pokemon1.rest = 0;
-  pokemon1.happiness = 0;
-  initialStats();
+  localStorage.clear();
+  location.reload();
 }
 
-$(window).on('load',function(){
-    $('#intro-msg-1').modal('show');
-    initialStats();
-    playOnBG();
-});
-
 //Game intro
-
 var introModal = document.getElementById('intro-msg-1');
 
-var playerName = "Player";
+var playerData = JSON.parse(localStorage.getItem('playerData'));
 
 var pokemon1 = new Pokemon("Pichu", GENDER_MALE, "no_sprite_yet", 56, 1, 24, 56, 99);
+
+var playerName = "Player";
+pokemon1.customName = "Pichu";
+if (playerData != null) {
+  playerName = playerData.name;
+  pokemon1.customName = playerData.pokemonName;
+}
 
 const introMessages = [
   ["???", "Hello there! Welcome to the world of pokémon! My name is Oak! People call me the pokémon Prof!"],
@@ -198,11 +196,21 @@ const introMessages = [
   ["Prof. Oak", `{playerName}! {pokemon1.customName}! Your very own Pokémon legend is about to unfold! A world of dreams and adventures with Pokémon awaits! Let's go!`],
 ]
 
+$(window).on('load',function(){
+  if (!playerData) {
+    $('#intro-msg-1').modal('show');
+  }
+  getStats();
+  playOnBG();
+});
+
 // Modal's handler
 let msgIndex = 1;
 function continueIntro() {
   if (msgIndex >= 8) {
     $('#intro-msg-1').modal('hide');
+    // set
+    localStorage.setItem("playerData", JSON.stringify({'name': playerName, 'pokemonName': pokemon1.customName}))
     return;
   }
 
@@ -249,125 +257,33 @@ var events = [
   `It's Chesto Berry season! They're ${pokemon1.customName}'s favorite! You should go grab some!'`
 ];
 
-const days = [];
+// Handles day to day events
 
-days.push(new Day(1, 1));
-days.push(new Day(2, 2));
-days.push(new Day(3, 4));
-days.push(new Day(4, 1));
-days.push(new Day(5, 3));
-days.push(new Day(6, 6));
-days.push(new Day(7, 5));
+function showNotif(type) {
+  $(`#notification-${type}`).toast('show');
+  $(`#notification-${type}-title`).text(`${pokemon1.customName} is ${type}!`);
+}
 
-var dayEvents = days.map(days => "Day " + days.number + " - " + days.event)
+let dayCounter = 1;
 
-//
-// function progressFoodGauge() {
-//   pokemon1.addHunger(40);
-//   if (y == 0) {
-//     var foodWidth = pokemon1.hunger;
-//     var currentFood = foodWidth;
-//     console.log(currentFood);
-//     var foodId = setInterval(frame, 50);
-//     function frame() {
-//       if (currentFood >= 100) {
-//         clearInterval(foodId);
-//         console.log(y);
-//       } else {
-//         if (currentFood < foodWidth) {
-//           currentFood++;
-//         }
-//         foodGauge.style.width = currentFood + "%";
-//         foodGauge.innerHTML = currentFood + "%";
-//       }
-//     }
-//   }
-//   console.log(pokemon1)
-// }
+function newDay() {
+  pokemon1.addHunger(-30);
+  pokemon1.addFun(-20);
 
+  dayCounter++;
+  $('#daily-number').text(`Day ${dayCounter}`);
+  $('#daily-event').text(events[getRandomInt(0, 6)]);
+  $('#daily-modal').modal('show');
 
+  if (pokemon1.hunger < 50) {
+    showNotif("hungry");
+  }
+  if (pokemon1.rest < 40) {
+    showNotif("tired");
+  }
+  if (pokemon1.fun < 60) {
+    showNotif("bored");
+  }
 
-//Handles day to day events
-// for (var index = 0; index < days.length; index++) {
-//   let currentLevel = pokemon1.lv
-//
-//   alert(dayEvents[index]);
-//   // Handles daily hunger points
-//   if (pokemon1.hunger < 50) {
-//     const feedResponse = prompt(`${pokemon1.customName} seems to be hungry! Type FEED if you want to give him some treats!`)?.toLowerCase();
-//     if (feedResponse === "feed") {
-//       pokemon1.addHunger(40);
-//       alert("He seems to love it!\n(+20 hunger points)");
-//       alert(pokemon1.hunger + " points of satiation!");
-//     }
-//     else if (feedResponse === "esc") {
-//       alert("Thank you for playing!");
-//       break;
-//     }
-//     else {
-//       pokemon1.addHunger(-30);
-//       alert("Too bad! He seemed to be very hungry.");
-//       alert(pokemon1.hunger + " points of satiation.");
-//     }
-//   }
-//   else {
-//     alert(`${pokemon1.customName} seems to be well fed lately. Good job!`);
-//   }
-//   pokemon1.addHunger(-30);
-//
-//   // Handles daily rest points
-//   if (pokemon1.rest < 40) {
-//     const restResponse = prompt(`${pokemon1.customName} seems to be tired! Type REST if you want to cuddle him to sleep.`)?.toLowerCase();
-//     if (restResponse === "rest") {
-//       pokemon1.addRest(40);
-//       alert("He's fast asleep.\n(+20 rest points)");
-//       alert(pokemon1.rest + " points of rest!");
-//     }
-//     else if (restResponse === "esc") {
-//       alert("Thank you for playing!");
-//       break;
-//     }
-//     else {
-//       pokemon1.addRest(-20);
-//       alert(`Poor thing, ${pokemon1.pokemonPronoun()} seems to lack some sleep.`);
-//       alert(pokemon1.rest + " points of rest.");
-//     }
-//   }
-//   else {
-//     alert(`${pokemon1.customName} is energized as always. Look at it run!`);
-//   }
-//   pokemon1.addRest(-20);
-//
-//   // Handles daily fun points
-//   if (pokemon1.fun < 60) {
-//     const funResponse = prompt(`${pokemon1.customName} looks bored Type PLAY if you want to play catch!`)?.toLowerCase();
-//     if (funResponse === "play") {
-//       pokemon1.addFun(30);
-//       alert("You can feel the joy in the air!\n(+20 fun points)");
-//       alert(pokemon1.fun + " points of fun!");
-//     }
-//     else if (funResponse === "esc") {
-//       alert("Thank you for playing!");
-//       break;
-//     }
-//     else {
-//       pokemon1.addFun(-20);
-//       alert("Maybe some other time...");
-//       alert(pokemon1.fun + " points of fun.");
-//     }
-//   }
-//   else {
-//     alert(`${pokemon1.customName} seems happy!`)
-//   }
-//   pokemon1.addFun(-20);
-//
-//   if (currentLevel!=pokemon1.lv) {
-//     alert(`${pokemon1.customName} leveled up! ${pokemon1.pokemonPronoun()} level is now ${pokemon1.lv}`);
-//   }
-//
-//   if (index == days.length - 1) {
-//     alert("You made it to the end of the week!");
-//   }
-// }
-//
-// alert("Thank you for playing this short demo of the simulator!\nPress F5 to play again!");
+  getStats();
+}

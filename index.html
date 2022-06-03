@@ -10,44 +10,81 @@
     <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-    <header>
-      <nav class="navbar navbar-expand-lg container-fluid">
-        <div class="container-fluid">
-          <a class="navbar-brand d-inline-flex" href="#">
-              <img src="https://i.imgur.com/8Ic4LGC.png" class="d-inline-block" alt="main-logo" id="main-logo">
-              <span>Pet Simulator</span>
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-            <span class="navbar-toggler-icon">
-              <i class="fa-solid fa-bars"></i>
-            </span>
-          </button>
+    <div class="wrapper">
+      <header>
+        <nav class="navbar navbar-expand-lg container-fluid">
+          <div class="container-fluid">
+            <a class="navbar-brand d-inline-flex" href="#">
+                <img src="https://i.imgur.com/8Ic4LGC.png" class="d-inline-block" alt="main-logo" id="main-logo">
+                <span>Pet Simulator</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+              <span class="navbar-toggler-icon">
+                <i class="fa-solid fa-bars"></i>
+              </span>
+            </button>
 
-          <!-- side-drawer -->
-          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="side-drawer">
-            <div class="offcanvas-header d-lg-none">
-              <a href="javascript:void(0)" class="text-reset p-0" data-bs-dismiss="offcanvas" aria-label="close">
-                <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="white" class="bi bi-x-circle" viewBox="0 0 16 16">
-                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                </svg>
-              </a>
-            </div>
+            <!-- side-drawer -->
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="side-drawer">
+              <div class="offcanvas-header d-lg-none">
+                <a href="javascript:void(0)" class="text-reset p-0" data-bs-dismiss="offcanvas" aria-label="close">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="white" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                  </svg>
+                </a>
+              </div>
 
-            <div class="offcanvas-body p-lg-0 menu">
-              <ul id="menu" class="navbar-nav">
-                <li class="nav-item">
-                  <a href="pages/about.html" class="nav-link">ABOUT</a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/faq.html" class="nav-link">FAQ</a>
-                </li>
-              </ul>
+              <div class="offcanvas-body p-lg-0 menu">
+                <ul id="menu" class="navbar-nav">
+                  <li class="nav-item">
+                    <a href="pages/about.html" class="nav-link">ABOUT</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="pages/faq.html" class="nav-link">FAQ</a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-      </nav>
-    </header>
+        </nav>
+      </header>
 
+      <!-- Gauges -->
+      <div class="gauge-container">
+        <div class="gauge">
+          <label for="fun-gauge">Fun</label>
+          <meter id="fun-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
+        </div>
+        <div class="gauge">
+          <label for="food-gauge">Food</label>
+          <meter id="food-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
+        </div>
+        <div class="gauge">
+          <label for="rest-gauge">Rest</label>
+          <meter id="rest-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
+        </div>
+        <div class="gauge">
+          <label for="happiness-gauge">Happiness</label>
+          <meter id="happiness-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
+        </div>
+      </div>
+
+      <!-- Pokémon -->
+      <div class="pokemon-container">
+        <div class="pokemon">
+          <img src="https://i.imgur.com/ROK2yzd.png" alt="pokemon" id="main-pokemon">
+        </div>
+      </div>
+
+      <!-- buttons -->
+      <div class="main-buttons row container-fluid">
+        <button type="button" class="btn btn-primary col button" id="play-button" onclick="progressGauge(`play`)">PLAY</button>
+        <button type="button" class="btn btn-primary col button" id="feed-button" onclick="progressGauge(`feed`)">FEED</button>
+        <button type="button" class="btn btn-primary col button" id="rest-button" onclick="progressGauge(`rest`)">REST</button>
+      </div>
+    </div>
+
+    <!-- Intro messages -->
     <div class="modal fade" id="intro-msg-1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -68,35 +105,65 @@
       </div>
     </div>
 
-    <div class="gauge-container">
-      <div class="gauge">
-        <label for="fun-gauge">Fun</label>
-        <meter id="fun-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
-      </div>
-      <div class="gauge">
-        <label for="food-gauge">Food</label>
-        <meter id="food-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
-      </div>
-      <div class="gauge">
-        <label for="rest-gauge">Rest</label>
-        <meter id="rest-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
-      </div>
-      <div class="gauge">
-        <label for="happiness-gauge">Happiness</label>
-        <meter id="happiness-gauge" min="0" low="20" optimum="60" max="100" value="0"></meter>
+    <!-- day-to-day events -->
+    <div class="modal fade" id="daily-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title" id="daily-number"></div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="daily-event">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok!</button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="pokemon-container">
-      <div class="pokemon">
-        <img src="https://i.imgur.com/ROK2yzd.png" alt="pokemon" id="main-pokemon">
-      </div>
-    </div>
+    <!-- Notifications -->
+    <div class="position-relative">
+      <div class="notification-container position-fixed top-0 start-50 translate-middle-x">
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="notification-bored">
+          <div class="toast-header">
+            <span class="warning-icon">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </span>
+            <strong class="me-auto" id="notification-bored-title"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body" id="notification-bored-body">
+            Why don't you play with it?
+          </div>
+        </div>
 
-    <div class="main-buttons row container-fluid">
-      <button type="button" class="btn btn-primary col button" id="play-button" onclick="progressGauge(`play`)">PLAY</button>
-      <button type="button" class="btn btn-primary col button" id="feed-button" onclick="progressGauge(`feed`)">FEED</button>
-      <button type="button" class="btn btn-primary col button" id="rest-button" onclick="progressGauge(`rest`)">REST</button>
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="notification-hungry">
+          <div class="toast-header">
+            <span class="warning-icon">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </span>
+            <strong class="me-auto" id="notification-hungry-title"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body" id="notification-hungry-body">
+            Be sure to feed it everyday!
+          </div>
+        </div>
+
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="notification-tired">
+          <div class="toast-header">
+            <span class="warning-icon">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </span>
+            <strong class="me-auto" id="notification-tired-title"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body" id="notification-tired-body">
+            Maybe it's time to get some sleep!
+          </div>
+        </div>
+      </div>
     </div>
 
     <button type="button" class="btn btn-primary col button" name="button" onclick="reset()">RESET</button>
