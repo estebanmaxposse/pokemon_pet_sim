@@ -5,13 +5,13 @@ const POKEMON_METADATA = {
   "pichu": {
     "fullName": "Pichu",
     "image": "https://i.imgur.com/ROK2yzd.png",
-    "evolvesAt": 7,
+    "evolvesAt": 2,
     "evolvesInto": "pikachu",
   },
   "pikachu": {
     "fullName": "Pikachu",
     "image": "https://i.imgur.com/JNpCZiN.png",
-    "evolvesAt": 32,
+    "evolvesAt": 5,
     "evolvesInto": "raichu",
   },
   "raichu": {
@@ -136,6 +136,24 @@ function getEvolutionData(pokemonName) {
   return null;
 }
 
+function getEvolutionLV(pokemonName) {
+  const pokemonKey = Object.keys(POKEMON_METADATA).find(k => pokemonName === k);
+  const pokemonData = POKEMON_METADATA[pokemonName];
+
+  const pokemonEvolveLV = pokemonData.evolvesAt;
+  if (pokemonEvolveLV) {
+    return POKEMON_METADATA[pokemonEvolveLV];
+  }
+  return null;
+}
+
+function getPokemonImage(pokemonName) {
+  const pokemonKey = Object.keys(POKEMON_METADATA).find(k => pokemonName === k);
+  const pokemonData = POKEMON_METADATA[pokemonName];
+
+  return pokemonData.image;
+}
+
 //RNG
 function getRandomInt(min=0, max=100) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -234,13 +252,15 @@ function progressGauge(buttonType) {
 
   console.log(pokemon1.lv);
 
-  pokemonList.forEach((pkmn, pkmnIndex) => {
+  [pokemon1].forEach((pkmn, pkmnIndex) => {
     pkmn.setOnLevelUpListener(levelUpModal);
-    if (pkmn.lv > pkmn.evolvesAt) {
-      const data = getEvolutionData(pkmn.name);
+    const pokemonData = POKEMON_METADATA[pkmn.species];
+    if (pokemonData.evolvesAt && pkmn.lv >= pokemonData.evolvesAt) {
+      const evolutionData = getEvolutionData(pkmn.species);
       evolutionModal(pkmn);
-      const component = $('#pokemon-image-' + pkmnIndex);
-      component.src = data.image;
+      const component = document.getElementById('pokemon-image-' + pkmnIndex);
+      component.src = evolutionData.image;
+      pkmn.species = pokemonData.evolvesInto
     }
   })
 }
@@ -258,7 +278,7 @@ var playerData = JSON.parse(localStorage.getItem('playerData'));
 
 //store pokemon stats
 
-const pokemon1 = new Pokemon("Pichu", GENDER_MALE, "no_sprite_yet", 0, 1, getRandomInt(), getRandomInt(), getRandomInt());
+const pokemon1 = new Pokemon("pichu", GENDER_MALE, "no_sprite_yet", 0, 1, getRandomInt(), getRandomInt(), getRandomInt());
 
 function storeStats() {
   let storePokemon = JSON.stringify(pokemon1);
@@ -267,6 +287,9 @@ function storeStats() {
 
 function loadStatsCache() {
   let storedPokemon = JSON.parse(localStorage.getItem('storePokemon'));
+  if (!storedPokemon) {
+    return null;
+  }
   pokemon1.species = storedPokemon.species;
   pokemon1.exp = storedPokemon.exp;
   pokemon1.lv = storedPokemon.lv;
@@ -298,14 +321,19 @@ const introMessages = [
   ["Prof. Oak", `{playerName}! {pokemon1.customName}! Your very own Pokémon legend is about to unfold! A world of dreams and adventures with Pokémon awaits! Let's go!`],
 ]
 
+function loadPokemonSprite(pkmn) {
+  let pokemonSprite = document.getElementById('pokemon-image-0');
+  const newSprite = getPokemonImage(pkmn.species);
+  pokemonSprite.src = newSprite;
+}
+
 $(window).on('load',function(){
   $('#modal-notification').modal('hide');
   if (!playerData) {
     $('#intro-msg-1').modal('show');
   }
-  else {
-    loadStatsCache();
-  }
+  loadStatsCache();
+  loadPokemonSprite(pokemon1);
   getStats();
   playOnBG();
 });
