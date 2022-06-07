@@ -1,11 +1,27 @@
 const GENDER_MALE = "male";
 const GENDER_FEMALE = "female";
 
-function getRandomInt(min=0, max=100) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+const POKEMON_METADATA = {
+  "pichu": {
+    "fullName": "Pichu",
+    "image": "https://i.imgur.com/ROK2yzd.png",
+    "evolvesAt": 7,
+    "evolvesInto": "pikachu",
+  },
+  "pikachu": {
+    "fullName": "Pikachu",
+    "image": "https://i.imgur.com/JNpCZiN.png",
+    "evolvesAt": 32,
+    "evolvesInto": "raichu",
+  },
+  "raichu": {
+    "fullName": "Raichu",
+    "image": "https://i.imgur.com/oNQZjIZ.png",
+    "evolvesAt": null,
+    "evolvesInto": null,
+  },
 }
 
-// Pokemon object to be implemented at a later date, this is a mockup of how the Pokemon object would work
 class Pokemon {
   constructor(species, gender, sprite) {
     this.species = species;
@@ -20,12 +36,19 @@ class Pokemon {
     this.happiness = (this.hunger + this.rest + this.fun)/3;
   }
 
+  setOnLevelUpListener(listener) {
+    this.onLevelUp = listener;
+  }
+
   addExp() {
     this.exp += 15;
 
     if (this.exp >= 100) {
       this.lv += 1;
       this.exp = 0;
+      if (this.onLevelUp) {
+        this.onLevelUp(this);
+      }
     }
   }
 
@@ -83,13 +106,13 @@ class Pokemon {
 
   pokemonPronoun() {
     if (this.gender == "male") {
-      return "His"
+      return "His";
     }
     else if (this.gender == "female") {
-      return "Her"
+      return "Her";
     }
     else {
-      return "Their"
+      return "Their";
     }
   }
 
@@ -101,6 +124,24 @@ class Pokemon {
   }
 }
 
+//Evolution
+function getEvolutionData(pokemonName) {
+  const pokemonKey = Object.keys(POKEMON_METADATA).find(k => pokemonName === k);
+  const pokemonData = POKEMON_METADATA[pokemonName];
+
+  const evolution = pokemonData.evolvesInto;
+  if (evolution) {
+    return POKEMON_METADATA[evolution];
+  }
+  return null;
+}
+
+//RNG
+function getRandomInt(min=0, max=100) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+//Days
 class Day {
   constructor(number, x) {
     this.number = parseInt(number);
@@ -109,8 +150,8 @@ class Day {
 }
 
 // Sound effects
-var buttonFX = new Audio("emerald_0005.wav");
-var audibleButton = document.querySelectorAll("button");
+const buttonFX = new Audio("emerald_0005.wav");
+const audibleButton = document.querySelectorAll("button");
 
 audibleButton.forEach(button => {
   button.addEventListener("click", () => {
@@ -118,10 +159,40 @@ audibleButton.forEach(button => {
   });
 });
 
-var mainBG = new Audio("bg-theme_mixdown.mp3");
+const mainBG = new Audio("bg-theme_mixdown.mp3");
 mainBG.loop = true;
 function playOnBG() {
   mainBG.play();
+}
+
+const evolutionSFX = new Audio("31 Fanfare- Evolution.mp3");
+const levelUpSFX = new Audio("Pokémon Level Up Sound Effect.mp3")
+
+function playSFX(SFXtype) {
+  if (SFXtype === "evolution") {
+    evolutionSFX.play();
+  }
+  if (SFXtype === "lvUp") {
+    levelUpSFX.play();
+  }
+}
+
+//Notification Modals
+let notificationModalTitle = document.getElementById('modal-notification-title');
+let notificationModalBody = document.getElementById('modal-notification-body');
+
+function evolutionModal(pkmn) {
+  $('#modal-notification').modal('show');
+  playSFX("evolution");
+  notificationModalTitle.innerText = "Congratulations!";
+  notificationModalBody.innerText = `${pkmn.customName} evolved into ${getEvolutionData(pkmn.species).fullName}!`;
+}
+
+function levelUpModal(pkmn) {
+  $('#modal-notification').modal('show');
+  playSFX("lvUp");
+  notificationModalTitle.innerText = "Congratulations!";
+  notificationModalBody.innerText = `${pkmn.customName} is now level ${pkmn.lv}!`;
 }
 
 // Gauge handler
@@ -149,23 +220,32 @@ function progressGauge(buttonType) {
     pokemon1.addFun(30);
     pokemon1.addRest(-20);
     getStats();
-    console.log(pokemon1.fun);
   }
   else if (buttonType == "feed") {
     pokemon1.addHunger(40);
     pokemon1.addRest(-10);
     getStats();
-    console.log(pokemon1.hunger);
   }
   else if (buttonType == "rest") {
-    pokemon1.addRest(40);
-    getStats();
+    pokemon1.addRest(70);
     newDay();
-    console.log(pokemon1.rest);
   }
-  happinessGauge.setAttribute("value", pokemon1.happiness)
+  happinessGauge.setAttribute("value", pokemon1.happiness);
+
+  console.log(pokemon1.lv);
+
+  pokemonList.forEach((pkmn, pkmnIndex) => {
+    pkmn.setOnLevelUpListener(levelUpModal);
+    if (pkmn.lv > pkmn.evolvesAt) {
+      const data = getEvolutionData(pkmn.name);
+      evolutionModal(pkmn);
+      const component = $('#pokemon-image-' + pkmnIndex);
+      component.src = data.image;
+    }
+  })
 }
 
+//reset button
 function reset() {
   localStorage.clear();
   location.reload();
@@ -176,7 +256,29 @@ var introModal = document.getElementById('intro-msg-1');
 
 var playerData = JSON.parse(localStorage.getItem('playerData'));
 
-var pokemon1 = new Pokemon("Pichu", GENDER_MALE, "no_sprite_yet", 56, 1, 24, 56, 99);
+//store pokemon stats
+
+const pokemon1 = new Pokemon("Pichu", GENDER_MALE, "no_sprite_yet", 0, 1, getRandomInt(), getRandomInt(), getRandomInt());
+
+function storeStats() {
+  let storePokemon = JSON.stringify(pokemon1);
+  localStorage.setItem("storePokemon", storePokemon);
+}
+
+function loadStatsCache() {
+  let storedPokemon = JSON.parse(localStorage.getItem('storePokemon'));
+  pokemon1.species = storedPokemon.species;
+  pokemon1.exp = storedPokemon.exp;
+  pokemon1.lv = storedPokemon.lv;
+  pokemon1.hunger = storedPokemon.hunger;
+  pokemon1.rest = storedPokemon.rest;
+  pokemon1.fun = storedPokemon.fun;
+  pokemon1.happiness = storedPokemon.happiness;
+}
+
+let pokemonList = [
+  pokemon1,
+]
 
 var playerName = "Player";
 pokemon1.customName = "Pichu";
@@ -197,14 +299,18 @@ const introMessages = [
 ]
 
 $(window).on('load',function(){
+  $('#modal-notification').modal('hide');
   if (!playerData) {
     $('#intro-msg-1').modal('show');
+  }
+  else {
+    loadStatsCache();
   }
   getStats();
   playOnBG();
 });
 
-// Modal's handler
+// Intro's handler
 let msgIndex = 1;
 function continueIntro() {
   if (msgIndex >= 8) {
@@ -223,6 +329,7 @@ function continueIntro() {
     }
     else {
       pokemon1.customName = name || "Pichu";
+      storeStats();
     }
     nameInput.value = "";
   }
@@ -230,11 +337,11 @@ function continueIntro() {
   var introText = introMessages[msgIndex][1].replace("{playerName}", playerName)
                                        .replace("{pokemon1.customName}", pokemon1.customName);
 
-  var newModalTitle = document.getElementById('intro-msg-1-toggle');
-  var modalText = document.getElementById('modal-text');
+  var introNewModalTitle = document.getElementById('intro-msg-1-toggle');
+  var introModalText = document.getElementById('intro-modal-text');
 
-  newModalTitle.innerText = introMessages[msgIndex][0];
-  modalText.innerText = introText;
+  introNewModalTitle.innerText = introMessages[msgIndex][0];
+  introModalText.innerText = introText;
 
   // Allow user to write input
   if (msgIndex === 2 || msgIndex === 5) {
@@ -247,7 +354,7 @@ function continueIntro() {
   msgIndex++;
 }
 
-var events = [
+const events = [
   "Apparently today there's gonna be some crazy discounts at the PokeShop in town!",
   "Brrr... The weather suddenly got really cold. Better pack a jacket!",
   "It seems something is happening in the forest nearby. Maybe you should check it out!", "Wear some sunscreen today because it's gonna be really hot!",
@@ -269,6 +376,7 @@ let dayCounter = 1;
 function newDay() {
   pokemon1.addHunger(-30);
   pokemon1.addFun(-20);
+  storeStats();
 
   dayCounter++;
   $('#daily-number').text(`Day ${dayCounter}`);
