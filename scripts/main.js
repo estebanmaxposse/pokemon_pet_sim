@@ -5,13 +5,13 @@ const POKEMON_METADATA = {
   "pichu": {
     "fullName": "Pichu",
     "image": "https://i.imgur.com/ROK2yzd.png",
-    "evolvesAt": 2,
+    "evolvesAt": 7,
     "evolvesInto": "pikachu",
   },
   "pikachu": {
     "fullName": "Pikachu",
     "image": "https://i.imgur.com/JNpCZiN.png",
-    "evolvesAt": 5,
+    "evolvesAt": 16,
     "evolvesInto": "raichu",
   },
   "raichu": {
