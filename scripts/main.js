@@ -124,7 +124,7 @@ class Pokemon {
   }
 }
 
-//Evolution
+//Evolution data
 function getEvolutionData(pokemonName) {
   const pokemonKey = Object.keys(POKEMON_METADATA).find(k => pokemonName === k);
   const pokemonData = POKEMON_METADATA[pokemonName];
@@ -187,12 +187,8 @@ const evolutionSFX = new Audio("31 Fanfare- Evolution.mp3");
 const levelUpSFX = new Audio("Pokémon Level Up Sound Effect.mp3")
 
 function playSFX(SFXtype) {
-  if (SFXtype === "evolution") {
-    evolutionSFX.play();
-  }
-  if (SFXtype === "lvUp") {
-    levelUpSFX.play();
-  }
+  (SFXtype === "evolution") && evolutionSFX.play();
+  (SFXtype === "lvUp") && levelUpSFX.play();
 }
 
 //Notification Modals
@@ -233,6 +229,7 @@ function getStats() {
   happinessGauge.setAttribute("value", pokemon1.happiness);
 }
 
+//buttons
 function progressGauge(buttonType) {
   if (buttonType == "play") {
     pokemon1.addFun(30);
@@ -250,8 +247,7 @@ function progressGauge(buttonType) {
   }
   happinessGauge.setAttribute("value", pokemon1.happiness);
 
-  console.log(pokemon1.lv);
-
+  //pokemon levels up and/or evolves
   [pokemon1].forEach((pkmn, pkmnIndex) => {
     pkmn.setOnLevelUpListener(levelUpModal);
     const pokemonData = POKEMON_METADATA[pkmn.species];
@@ -266,7 +262,22 @@ function progressGauge(buttonType) {
 }
 
 //reset button
-function reset() {
+function rerollStats() {
+  let storedPokemon = JSON.parse(localStorage.getItem('storePokemon'));
+
+  rolledStats = {
+    ...storedPokemon,
+    hunger: getRandomInt(),
+    rest: getRandomInt(),
+    fun: getRandomInt(),
+  }
+
+  let storePokemon = JSON.stringify(rolledStats);
+  localStorage.setItem("storePokemon", storePokemon);
+  location.reload();
+}
+
+function resetCache() {
   localStorage.clear();
   location.reload();
 }
@@ -277,7 +288,6 @@ var introModal = document.getElementById('intro-msg-1');
 var playerData = JSON.parse(localStorage.getItem('playerData'));
 
 //store pokemon stats
-
 const pokemon1 = new Pokemon("pichu", GENDER_MALE, "no_sprite_yet", 0, 1, getRandomInt(), getRandomInt(), getRandomInt());
 
 function storeStats() {
@@ -299,27 +309,13 @@ function loadStatsCache() {
   pokemon1.happiness = storedPokemon.happiness;
 }
 
-let pokemonList = [
-  pokemon1,
-]
-
+//retrieve player's and pokemon's names
 var playerName = "Player";
 pokemon1.customName = "Pichu";
 if (playerData != null) {
   playerName = playerData.name;
   pokemon1.customName = playerData.pokemonName;
 }
-
-const introMessages = [
-  ["???", "Hello there! Welcome to the world of pokémon! My name is Oak! People call me the pokémon Prof!"],
-  ["Prof. Oak", "This world is inhabited by creatures called Pokémon! For some people, Pokémon are pets. Other use them for fights. Myself… I study Pokémon as a profession."],
-  ["Prof. Oak", "So, what is your name?"],
-  ["Prof. Oak", `Right! So your name is {playerName}!`],
-  ["Prof. Oak", `First, let me introduce you to your very own Pokémon: ${pokemon1.species}! This little boy is an electric type Pokémon. ${pokemon1.species}s are often social Pokémons known for their playful and mischievous demeanor.`],
-  ["Prof. Oak", `What will be ${pokemon1.species}'s name?`],
-  ["Prof. Oak", `So ${pokemon1.pokemonPronoun()} name is {pokemon1.customName}!`],
-  ["Prof. Oak", `{playerName}! {pokemon1.customName}! Your very own Pokémon legend is about to unfold! A world of dreams and adventures with Pokémon awaits! Let's go!`],
-]
 
 function loadPokemonSprite(pkmn) {
   let pokemonSprite = document.getElementById('pokemon-image-0');
@@ -339,6 +335,17 @@ $(window).on('load',function(){
 });
 
 // Intro's handler
+const introMessages = [
+  ["???", "Hello there! Welcome to the world of pokémon! My name is Oak! People call me the pokémon Prof!"],
+  ["Prof. Oak", "This world is inhabited by creatures called Pokémon! For some people, Pokémon are pets. Other use them for fights. Myself… I study Pokémon as a profession."],
+  ["Prof. Oak", "So, what is your name?"],
+  ["Prof. Oak", `Right! So your name is {playerName}!`],
+  ["Prof. Oak", `First, let me introduce you to your very own Pokémon: ${pokemon1.species}! This little boy is an electric type Pokémon. ${pokemon1.species}s are often social Pokémons known for their playful and mischievous demeanor.`],
+  ["Prof. Oak", `What will be ${pokemon1.species}'s name?`],
+  ["Prof. Oak", `So ${pokemon1.pokemonPronoun()} name is {pokemon1.customName}!`],
+  ["Prof. Oak", `{playerName}! {pokemon1.customName}! Your very own Pokémon legend is about to unfold! A world of dreams and adventures with Pokémon awaits! Let's go!`],
+]
+
 let msgIndex = 1;
 function continueIntro() {
   if (msgIndex >= 8) {
@@ -362,22 +369,19 @@ function continueIntro() {
     nameInput.value = "";
   }
 
-  var introText = introMessages[msgIndex][1].replace("{playerName}", playerName)
-                                       .replace("{pokemon1.customName}", pokemon1.customName);
+  const [title, text] = introMessages[msgIndex];
+
+  var introText = text.replace("{playerName}", playerName)
+                                            .replace("{pokemon1.customName}", pokemon1.customName);
 
   var introNewModalTitle = document.getElementById('intro-msg-1-toggle');
   var introModalText = document.getElementById('intro-modal-text');
 
-  introNewModalTitle.innerText = introMessages[msgIndex][0];
+  introNewModalTitle.innerText = title;
   introModalText.innerText = introText;
 
   // Allow user to write input
-  if (msgIndex === 2 || msgIndex === 5) {
-    document.getElementById('player-name-input').style.display = "block";
-  }
-  else {
-    document.getElementById('player-name-input').style.display = "none";
-  }
+  (msgIndex === 2 || msgIndex === 5) ? document.getElementById('player-name-input').style.display = "block" : document.getElementById('player-name-input').style.display = "none";
 
   msgIndex++;
 }
@@ -393,7 +397,6 @@ const events = [
 ];
 
 // Handles day to day events
-
 function showNotif(type) {
   $(`#notification-${type}`).toast('show');
   $(`#notification-${type}-title`).text(`${pokemon1.customName} is ${type}!`);
@@ -411,15 +414,9 @@ function newDay() {
   $('#daily-event').text(events[getRandomInt(0, 6)]);
   $('#daily-modal').modal('show');
 
-  if (pokemon1.hunger < 50) {
-    showNotif("hungry");
-  }
-  if (pokemon1.rest < 40) {
-    showNotif("tired");
-  }
-  if (pokemon1.fun < 60) {
-    showNotif("bored");
-  }
+  pokemon1.hunger < 50 && showNotif("hungry");
+  pokemon1.rest < 50 && showNotif("tired");
+  pokemon1.fun < 50 && showNotif("bored");
 
   getStats();
 }
