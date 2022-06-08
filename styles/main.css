@@ -80,7 +80,8 @@ body {
   grid-template-rows: auto 1fr 3fr 1fr;
   grid-template-areas: "header" "gauges" "content" "buttons";
   align-items: center;
-  justify-items: center; }
+  justify-items: center;
+  max-height: 100vh; }
 
 header {
   grid-area: header;
@@ -138,8 +139,9 @@ a {
     background-color: green;
     background-size: 100% 100%; }
 
-#main-pokemon {
+#pokemon-image-0 {
   width: 60%;
+  max-width: 400px;
   height: auto; }
 
 .pokemon-container {
@@ -153,7 +155,8 @@ a {
 
 .main-buttons {
   grid-area: buttons;
-  align-items: center; }
+  align-items: center;
+  align-self: flex-end; }
   .main-buttons .btn-primary {
     margin: 8px;
     font-size: 3.5rem; }

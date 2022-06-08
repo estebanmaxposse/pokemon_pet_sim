@@ -17,6 +17,7 @@ body {
   grid-template-areas: "header" "gauges" "content" "buttons";
   align-items: center;
   justify-items: center;
+  max-height: 100vh;
 }
 
 header {
@@ -94,8 +95,9 @@ a {
   // line-height: 30px;
 }
 
-#main-pokemon {
+#pokemon-image-0 {
   width: 60%;
+  max-width: 400px;
   height: auto;
 }
 
@@ -113,6 +115,7 @@ a {
 .main-buttons {
   grid-area: buttons;
   align-items: center;
+  align-self: flex-end;
   .btn-primary {
     margin: 8px;
     font-size: 3.5rem;
