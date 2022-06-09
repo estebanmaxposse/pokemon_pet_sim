@@ -28,8 +28,8 @@
             <!-- side-drawer -->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="side-drawer">
               <div class="offcanvas-header d-lg-none">
-                <a href="javascript:void(0)" class="text-reset p-0" data-bs-dismiss="offcanvas" aria-label="close">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="white" class="bi bi-x-circle" viewBox="0 0 16 16">
+                <a href="javascript:void(0)" class="text-reset p-0 close-button" data-bs-dismiss="offcanvas" aria-label="close" onclick="buttonFX.play()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="white" class="bi bi-x-circle close-button-image" viewBox="0 0 16 16">
                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                   </svg>
                 </a>
@@ -38,16 +38,21 @@
               <div class="offcanvas-body p-lg-0 menu">
                 <ul id="menu" class="navbar-nav">
                   <li class="nav-item">
-                    <a href="pages/about.html" class="nav-link">ABOUT</a>
+                    <a href="#" class="nav-link">ABOUT</a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/faq.html" class="nav-link">FAQ</a>
+                    <a href="#" class="nav-link">FAQ</a>
                   </li>
                 </ul>
 
-                <button type="button" class="btn btn-primary col button" name="button" onclick="resetCache()">Reset Cache</button>
+                <div class="settings">
+                  <button type="button" class="btn button" name="button" onclick="resetCache()">Reset Cache</button>
 
-                <button type="button" class="btn btn-primary col button" name="button" onclick="rerollStats()">Reroll Stats</button>
+                  <button type="button" class="btn button" name="button" onclick="rerollStats()">Reroll Stats</button>
+
+                  <button type="button" class="btn button" name="button" onclick="" id="music-toggle">Music</button>
+                </div>
+
               </div>
             </div>
           </div>
@@ -135,8 +140,8 @@
             <span class="warning-icon">
               <i class="fa-solid fa-triangle-exclamation"></i>
             </span>
-            <strong class="me-auto" id="notification-bored-title"></strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            <strong class="me-auto toast-title" id="notification-bored-title"></strong>
+            <button type="button" class="btn-close .btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
           </div>
           <div class="toast-body" id="notification-bored-body">
             Why don't you play with it?
@@ -148,7 +153,7 @@
             <span class="warning-icon">
               <i class="fa-solid fa-triangle-exclamation"></i>
             </span>
-            <strong class="me-auto" id="notification-hungry-title"></strong>
+            <strong class="me-auto toast-title" id="notification-hungry-title"></strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
           </div>
           <div class="toast-body" id="notification-hungry-body">
@@ -161,7 +166,7 @@
             <span class="warning-icon">
               <i class="fa-solid fa-triangle-exclamation"></i>
             </span>
-            <strong class="me-auto" id="notification-tired-title"></strong>
+            <strong class="me-auto toast-title" id="notification-tired-title"></strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
           </div>
           <div class="toast-body" id="notification-tired-body">

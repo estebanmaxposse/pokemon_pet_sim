@@ -1,0 +1,115 @@
+@media (min-device-width : 683px) {
+  body {
+    font-size: 2em;
+  }
+
+  .navbar-brand {
+    font-size: 2rem;
+    #main-logo {
+      width: 13vw;
+    }
+  }
+
+  .navbar-toggler {
+    font-size: 1.25rem;
+  }
+
+  .nav-link {
+    font-size: 2rem;
+  }
+
+  .btn {
+    font-size: 1.6rem;
+  }
+
+  .gauge-container {
+    grid-template-columns: repeat(4, auto);
+  }
+
+  .main-buttons {
+    .btn-primary {
+    margin: 8px;
+    font-size: 2.5rem;
+    }
+  }
+
+  .modal {
+    font-size: 2rem;
+  }
+
+  .modal-content {
+    border: 4px solid black;
+    .modal-header {
+      padding: .5rem 1rem;
+      .modal-title {
+        font-size: 2.25rem;
+      }
+    }
+    .modal-footer {
+      padding: 0;
+    }
+  }
+
+  .form-control {
+    font-size: 2rem;
+  }
+
+  .toast {
+    font-size: 1.5rem;
+
+  }
+}
+
+@media (min-device-width : 1024px) {
+  body {
+    font-size: 1.5rem;
+  }
+
+  .navbar {
+    padding: 0;
+  }
+
+  .navbar-brand {
+    font-size: 1.5rem;
+    #main-logo {
+      width: 11vw;
+    }
+  }
+
+  .navbar-toggler {
+    font-size: 1.75rem;
+  }
+
+  .nav-link {
+    font-size: 1.5rem;
+  }
+
+  .btn {
+    font-size: 1.5rem;
+  }
+
+  .menu {
+    justify-content: flex-end;
+    .navbar-nav {
+      align-items: center;
+    }
+    .settings {
+      flex-direction: row;
+    }
+  }
+
+  #pokemon-image-0 {
+    max-width: 15vw;
+  }
+
+  .main-buttons {
+    .btn-primary {
+    margin: 16px 64px;
+    font-size: 1.75rem;
+    }
+  }
+
+  #play-button, #feed-button, #rest-button {
+    border: 4px solid black;
+  }
+}

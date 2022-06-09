@@ -10,13 +10,13 @@ const POKEMON_METADATA = {
   },
   "pikachu": {
     "fullName": "Pikachu",
-    "image": "https://i.imgur.com/JNpCZiN.png",
+    "image": "https://i.imgur.com/1L28AgF.png",
     "evolvesAt": 16,
     "evolvesInto": "raichu",
   },
   "raichu": {
     "fullName": "Raichu",
-    "image": "https://i.imgur.com/oNQZjIZ.png",
+    "image": "https://i.imgur.com/2cvLLi2.png",
     "evolvesAt": null,
     "evolvesInto": null,
   },
@@ -170,6 +170,8 @@ class Day {
 // Sound effects
 const buttonFX = new Audio("emerald_0005.wav");
 const audibleButton = document.querySelectorAll("button");
+const musicToggle = document.getElementById('music-toggle');
+const mainBG = new Audio("bg-theme_mixdown.mp3");
 
 audibleButton.forEach(button => {
   button.addEventListener("click", () => {
@@ -177,10 +179,13 @@ audibleButton.forEach(button => {
   });
 });
 
-const mainBG = new Audio("bg-theme_mixdown.mp3");
-mainBG.loop = true;
-function playOnBG() {
-  mainBG.play();
+musicToggle.onclick = function() {
+  mainBG.paused ? mainBG.play() : music_stop();
+}
+
+function music_stop() {
+  mainBG.pause();
+  mainBG.currentTime = 0;
 }
 
 const evolutionSFX = new Audio("31 Fanfare- Evolution.mp3");
@@ -331,7 +336,6 @@ $(window).on('load',function(){
   loadStatsCache();
   loadPokemonSprite(pokemon1);
   getStats();
-  playOnBG();
 });
 
 // Intro's handler
