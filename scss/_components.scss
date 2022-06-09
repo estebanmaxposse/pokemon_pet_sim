@@ -1,0 +1,109 @@
+.modal, .form-control {
+  color: black;
+  font-size: 3rem;
+}
+
+.form-control {
+  background-color: white;
+  border: 4px solid rgba(0, 0, 0, .7);
+  &:focus {
+    background-color: white;
+    border-color: black;
+  }
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  font-size: 2.5rem;
+  background-color: #4192CD;
+  margin: 8px;
+}
+
+.modal-content {
+  background-color: #FF891C;
+  border: 8px solid black;
+  .modal-header {
+    border-bottom: 4px dashed black;
+  }
+  .modal-title {
+    font-size: 3.5rem;
+  }
+  .modal-footer {
+    border-top: 4px dashed black;
+  }
+}
+
+.gauge-container {
+  width: 100%;
+  grid-area: gauges;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  justify-items: center;
+}
+
+.gauge {
+  display: flex;
+  flex-direction: column;
+  &::-webkit-meter-bar {
+    background: none;
+    background-color: black;
+  }
+  &::-webkit-meter-optimum-value {
+    background-color: green;
+    background-size: 100% 100%;
+  }
+}
+
+#food-gauge {
+  // line-height: 30px;
+}
+
+.main-buttons {
+  grid-area: buttons;
+  align-items: center;
+  align-self: flex-end;
+  .btn-primary {
+    margin: 8px;
+    font-size: 3.5rem;
+  }
+}
+
+#play-button {
+  background-color: #7ACD41;
+  border: 8px solid black;
+}
+
+#feed-button {
+  background-color: #FF891C;
+  border: 8px solid black;
+}
+
+#rest-button {
+  background-color: #4192CD;
+  border: 8px solid black;
+}
+
+.warning-icon {
+  color: yellow;
+}
+
+.toast {
+  background-color: rgba(98, 137, 222, .7);
+  font-size: 2rem;
+  color: black;
+  border: 2px solid black;
+  &-header {
+    border-bottom: 1px dashed rgba(0,0,0,1);
+    background-color: rgba(98, 137, 222, .7);
+    strong {
+    padding-left: 8px;
+    color: black;
+    }
+  }
+}

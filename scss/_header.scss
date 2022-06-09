@@ -35,8 +35,12 @@ nav {
   }
 }
 
-.navbar-toggler-icon {
-
+.close-button {
+  display: flex;
+  justify-content: center;
+  &-image {
+    width: 60%;
+  }
 }
 
 #main-logo {

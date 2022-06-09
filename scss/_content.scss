@@ -1,8 +1,8 @@
 //general styles
 body {
   min-height: 100vh;
-  background-image: url(https://i.imgur.com/sO4KAvL.png);
-  background-position: center;
+  background-image: url(https://i.imgur.com/Xa1Nl85.gif);
+  background-position: bottom;
   background-repeat: no-repeat;
   background-size: cover;
   font-family: $font-main;
@@ -17,7 +17,7 @@ body {
   grid-template-areas: "header" "gauges" "content" "buttons";
   align-items: center;
   justify-items: center;
-  max-height: 100vh;
+  height: 100vh;
 }
 
 header {
@@ -36,65 +36,6 @@ a {
   }
 }
 
-.modal, .form-control {
-  color: black;
-  font-size: 3rem;
-}
-
-.form-control {
-  background-color: white;
-  border: 4px solid rgba(0, 0, 0, .7);
-  &:focus {
-    background-color: white;
-    border-color: black;
-  }
-}
-
-.btn {
-  font-size: 2.5rem;
-}
-
-.modal-content {
-  background-color: #FF891C;
-  border: 8px solid black;
-  .modal-header {
-    border-bottom: 4px dashed black;
-  }
-  .modal-title {
-    font-size: 3.5rem;
-  }
-  .modal-footer {
-    border-top: 4px dashed black;
-  }
-}
-
-.gauge-container {
-  width: 100%;
-  grid-area: gauges;
-  padding: 16px;
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto;
-  justify-items: center;
-}
-
-.gauge {
-  display: flex;
-  flex-direction: column;
-  &::-webkit-meter-bar {
-    background: none;
-    background-color: black;
-  }
-  &::-webkit-meter-optimum-value {
-    background-color: green;
-    background-size: 100% 100%;
-  }
-}
-
-#food-gauge {
-  // line-height: 30px;
-}
-
 #pokemon-image-0 {
   width: 60%;
   max-width: 400px;
@@ -110,38 +51,4 @@ a {
     display: flex;
     justify-content: center;
   }
-}
-
-.main-buttons {
-  grid-area: buttons;
-  align-items: center;
-  align-self: flex-end;
-  .btn-primary {
-    margin: 8px;
-    font-size: 3.5rem;
-  }
-}
-
-#play-button {
-  background-color: #7ACD41;
-  border: 8px solid black;
-}
-
-#feed-button {
-  background-color: #FF891C;
-  border: 8px solid black;
-}
-
-#rest-button {
-  background-color: #4192CD;
-  border: 8px solid black;
-}
-
-.warning-icon {
-  color: yellow;
-}
-
-.toast {
-  font-size: 2.5rem;
-  color: black;
 }
