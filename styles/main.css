@@ -105,7 +105,12 @@ a {
 #pokemon-image-0 {
   width: 60%;
   max-width: 400px;
-  height: auto; }
+  height: auto;
+  display: flex;
+  justify-content: center; }
+
+#loading-gif {
+  width: 10vw; }
 
 .pokemon-container {
   grid-area: content;
@@ -115,6 +120,12 @@ a {
   .pokemon-container .pokemon {
     display: flex;
     justify-content: center; }
+    .pokemon-container .pokemon div *:first-child {
+      display: none; }
+    .pokemon-container .pokemon div *:last-child {
+      display: block; }
+    .pokemon-container .pokemon div canvas {
+      min-width: 30vw; }
 
 .modal, .form-control {
   color: black;
@@ -218,6 +229,8 @@ a {
   .main-buttons .btn-primary {
     margin: 8px;
     font-size: 2.5rem; }
+  .pokemon-container .pokemon div canvas {
+    min-width: 15vw; }
   .modal {
     font-size: 2rem; }
   .modal-content {
@@ -256,6 +269,8 @@ a {
       flex-direction: row; }
   #pokemon-image-0 {
     max-width: 15vw; }
+  .pokemon-container .pokemon div canvas {
+    min-width: 10vw; }
   .main-buttons .btn-primary {
     margin: 16px 64px;
     font-size: 1.75rem; }
