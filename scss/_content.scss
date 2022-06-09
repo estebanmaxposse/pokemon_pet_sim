@@ -40,6 +40,12 @@ a {
   width: 60%;
   max-width: 400px;
   height: auto;
+  display: flex;
+  justify-content: center;
+}
+
+#loading-gif {
+  width: 10vw;
 }
 
 .pokemon-container {
@@ -50,5 +56,17 @@ a {
   .pokemon {
     display: flex;
     justify-content: center;
+
+    div {
+      & *:first-child {
+        display: none;
+      }
+      & *:last-child {
+        display: block;
+      }
+      canvas {
+        min-width: 30vw;
+      }
+    }
   }
 }

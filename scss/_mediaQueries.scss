@@ -33,6 +33,16 @@
     }
   }
 
+  .pokemon-container {
+    .pokemon {
+      div {
+        canvas {
+          min-width: 15vw;
+        }
+      }
+    }
+  }
+
   .modal {
     font-size: 2rem;
   }
@@ -100,6 +110,16 @@
 
   #pokemon-image-0 {
     max-width: 15vw;
+  }
+
+  .pokemon-container {
+    .pokemon {
+      div {
+        canvas {
+          min-width: 10vw;
+        }
+      }
+    }
   }
 
   .main-buttons {

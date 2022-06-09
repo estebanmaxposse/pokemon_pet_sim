@@ -5,22 +5,82 @@ const POKEMON_METADATA = {
   "pichu": {
     "fullName": "Pichu",
     "image": "https://i.imgur.com/ROK2yzd.png",
+    "sprites": {
+      "idle": {
+    		"url": 'https://i.imgur.com/Asn1lG5.png',
+    		"count": 10,
+    	},
+      "eating": "",
+    },
     "evolvesAt": 7,
     "evolvesInto": "pikachu",
   },
   "pikachu": {
     "fullName": "Pikachu",
     "image": "https://i.imgur.com/1L28AgF.png",
-    "evolvesAt": 16,
+    "sprites": {
+      "idle": {
+        "url": 'https://i.imgur.com/OKczAEr.png',
+        "count": 16,
+      },
+    },
+    "evolvesAt": 3,
     "evolvesInto": "raichu",
   },
   "raichu": {
     "fullName": "Raichu",
     "image": "https://i.imgur.com/2cvLLi2.png",
+    "sprites": {
+      "idle": {
+        "url": 'https://i.imgur.com/L0pfT9s.png',
+        "count": 10,
+      },
+    },
     "evolvesAt": null,
     "evolvesInto": null,
   },
 }
+
+//sprite data & animations
+const POKEMON_PIXELS = {}
+Object.keys(POKEMON_METADATA).forEach(p => {
+  const sprites = POKEMON_METADATA[p].sprites ?? {};
+  const pixels = {};
+
+  Object.keys(sprites).forEach(s => {
+    const spriteData = {...sprites[s], direction: 'x'};
+    pixels[s] = new FatPixels({
+      scale  : 4.0,
+    	speed  : "10fps",
+    	sprite : spriteData,
+    });
+  });
+
+  POKEMON_PIXELS[p] = pixels;
+});
+
+console.log(POKEMON_PIXELS);
+
+const pichuIdleData = POKEMON_METADATA['pichu'].sprites.idle;
+const pichuIdle = new FatPixels({
+  scale  : 4.0,
+	speed  : "10fps",
+	sprite : {...pichuIdleData, direction: 'x'},
+});
+
+const pikachuIdleData = POKEMON_METADATA['pikachu'].sprites.idle;
+const pikachuIdle = new FatPixels({
+  scale  : 4.0,
+	speed  : "10fps",
+	sprite : {...pikachuIdleData, direction: 'x'},
+});
+
+const raichuIdleData = POKEMON_METADATA['raichu'].sprites.idle;
+const raichuIdle = new FatPixels({
+  scale  : 4.0,
+	speed  : "10fps",
+	sprite : {...pichuIdleData, direction: 'x'},
+});
 
 class Pokemon {
   constructor(species, gender, sprite) {
@@ -131,7 +191,9 @@ function getEvolutionData(pokemonName) {
 
   const evolution = pokemonData.evolvesInto;
   if (evolution) {
-    return POKEMON_METADATA[evolution];
+    const ret = POKEMON_METADATA[evolution];
+    ret['species'] = evolution;
+    return ret;
   }
   return null;
 }
@@ -151,7 +213,7 @@ function getPokemonImage(pokemonName) {
   const pokemonKey = Object.keys(POKEMON_METADATA).find(k => pokemonName === k);
   const pokemonData = POKEMON_METADATA[pokemonName];
 
-  return pokemonData.image;
+  return pokemonData.sprites;
 }
 
 //RNG
@@ -259,9 +321,8 @@ function progressGauge(buttonType) {
     if (pokemonData.evolvesAt && pkmn.lv >= pokemonData.evolvesAt) {
       const evolutionData = getEvolutionData(pkmn.species);
       evolutionModal(pkmn);
-      const component = document.getElementById('pokemon-image-' + pkmnIndex);
-      component.src = evolutionData.image;
-      pkmn.species = pokemonData.evolvesInto
+      loadPokemonSprite(evolutionData.species, "idle");
+      pkmn.species = pokemonData.evolvesInto;
     }
   })
 }
@@ -322,10 +383,19 @@ if (playerData != null) {
   pokemon1.customName = playerData.pokemonName;
 }
 
-function loadPokemonSprite(pkmn) {
+function loadPokemonSprite(pkmnSpecies, state) {
+  let canvas = document.getElementsByTagName('canvas');
+  let firstCanvas = canvas[0];
+  firstCanvas.remove();
   let pokemonSprite = document.getElementById('pokemon-image-0');
-  const newSprite = getPokemonImage(pkmn.species);
-  pokemonSprite.src = newSprite;
+  const newSprite = POKEMON_PIXELS[pkmnSpecies][state];
+  newSprite.drawWithTarget(pokemonSprite);
+}
+
+function firstSprite(pkmn, state) {
+  let pokemonSprite = document.getElementById('pokemon-image-0');
+  const newSprite = POKEMON_PIXELS[pkmn.species][state];
+  newSprite.drawWithTarget(pokemonSprite);
 }
 
 $(window).on('load',function(){
@@ -333,8 +403,9 @@ $(window).on('load',function(){
   if (!playerData) {
     $('#intro-msg-1').modal('show');
   }
+  firstSprite(pokemon1, "idle");
   loadStatsCache();
-  loadPokemonSprite(pokemon1);
+  loadPokemonSprite(pokemon1.species, "idle");
   getStats();
 });
 
