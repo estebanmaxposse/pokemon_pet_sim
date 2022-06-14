@@ -60,10 +60,6 @@
   }
 }
 
-#food-gauge {
-  // line-height: 30px;
-}
-
 .main-buttons {
   grid-area: buttons;
   align-items: center;
@@ -105,5 +101,15 @@
     padding-left: 8px;
     color: black;
     }
+  }
+}
+
+.tooltip {
+  font-family: $font-main;
+  font-size: 1.25rem;
+  .tooltip-inner {
+    -webkit-border-radius:0px;
+    -moz-border-radius:0px;
+    border-radius:0px;
   }
 }

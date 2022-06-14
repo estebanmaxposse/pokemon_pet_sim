@@ -82,8 +82,8 @@
       <!-- Pokémon -->
       <div class="pokemon-container">
         <div class="pokemon">
-          <div id="pokemon-image-0">
-            <img crossorigin="anonymous" src="https://i.imgur.com/n63XIYm.gif" alt="pokemon-pichu" id="loading-gif">
+          <div id="pokemon-image-0" data-bs-toggle="tooltip" title="" onclick="pokeInfoModal()">
+            <img class="img-fluid" crossorigin="anonymous" src="https://i.imgur.com/n63XIYm.gif" alt="pokemon-pichu" id="loading-gif">
           </div>
         </div>
       </div>
@@ -97,7 +97,7 @@
     </div>
 
     <!-- Intro messages -->
-    <div class="modal fade" id="intro-msg-1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal fade" data-bs-backdrop="static" id="intro-msg-1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -173,6 +173,33 @@
           </div>
           <div class="toast-body" id="notification-tired-body">
             Maybe it's time to get some sleep!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pokémon Info Modal -->
+    <div class="modal fade" id="modal-poke-info" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title" id="modal-poke-info-title"></div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modal-poke-info-body">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col">
+                  <img class="img-fluid" crossorigin="anonymous" src="https://i.imgur.com/n63XIYm.gif" alt="pokemon-pichu" id="loading-gif">
+                </div>
+                <div class="col">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok!</button>
           </div>
         </div>
       </div>

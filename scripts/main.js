@@ -12,7 +12,7 @@ const POKEMON_METADATA = {
     	},
       "eating": "",
     },
-    "evolvesAt": 7,
+    "evolvesAt": 2,
     "evolvesInto": "pikachu",
   },
   "pikachu": {
@@ -21,7 +21,7 @@ const POKEMON_METADATA = {
     "sprites": {
       "idle": {
         "url": 'https://i.imgur.com/OKczAEr.png',
-        "count": 16,
+        "count": 10,
       },
     },
     "evolvesAt": 3,
@@ -184,6 +184,8 @@ class Pokemon {
   }
 }
 
+const pokemon1 = new Pokemon("pichu", GENDER_MALE, "no_sprite_yet", 0, 1, getRandomInt(), getRandomInt(), getRandomInt());
+
 //Evolution data
 function getEvolutionData(pokemonName) {
   const pokemonKey = Object.keys(POKEMON_METADATA).find(k => pokemonName === k);
@@ -276,6 +278,21 @@ function levelUpModal(pkmn) {
   notificationModalBody.innerText = `${pkmn.customName} is now level ${pkmn.lv}!`;
 }
 
+// Pokémon Info Modal
+let pokeInfoModalTitle = document.getElementById('modal-poke-info-title');
+let pokeInfoModalBody = document.getElementById('modal-poke-info-body');
+
+function pokeInfoModal() {
+  $('#modal-poke-info').modal('show');
+  pokeInfoModalTitle.innerText = `${pokemon1.customName}`;
+  pokeInfoModalBody.innerText = `${pokemon1.customName}`;
+}
+
+//Tooltip handler
+const tooltip = document.getElementById('pokemon-image-0');
+tooltip.title = `${pokemon1.species}'s stats!`;
+console.log(tooltip.title);
+
 // Gauge handler
 var funGauge = document.getElementById(`fun-gauge`);
 var funValue = funGauge.getAttribute(`value`);
@@ -323,6 +340,8 @@ function progressGauge(buttonType) {
       evolutionModal(pkmn);
       loadPokemonSprite(evolutionData.species, "idle");
       pkmn.species = pokemonData.evolvesInto;
+      tooltip.title = `${pkmn.species}'s stats!`;
+      tooltipTriggerList = new bootstrap.Tooltip(tooltip)
     }
   })
 }
@@ -354,8 +373,6 @@ var introModal = document.getElementById('intro-msg-1');
 var playerData = JSON.parse(localStorage.getItem('playerData'));
 
 //store pokemon stats
-const pokemon1 = new Pokemon("pichu", GENDER_MALE, "no_sprite_yet", 0, 1, getRandomInt(), getRandomInt(), getRandomInt());
-
 function storeStats() {
   let storePokemon = JSON.stringify(pokemon1);
   localStorage.setItem("storePokemon", storePokemon);
@@ -398,11 +415,13 @@ function firstSprite(pkmn, state) {
   newSprite.drawWithTarget(pokemonSprite);
 }
 
+//Intro loader
 $(window).on('load',function(){
   $('#modal-notification').modal('hide');
   if (!playerData) {
     $('#intro-msg-1').modal('show');
   }
+  tooltipTriggerList = new bootstrap.Tooltip(tooltip)
   firstSprite(pokemon1, "idle");
   loadStatsCache();
   loadPokemonSprite(pokemon1.species, "idle");
