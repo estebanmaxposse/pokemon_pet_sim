@@ -285,13 +285,48 @@ let pokeInfoModalBody = document.getElementById('modal-poke-info-body');
 function pokeInfoModal() {
   $('#modal-poke-info').modal('show');
   pokeInfoModalTitle.innerText = `${pokemon1.customName}`;
-  pokeInfoModalBody.innerText = `${pokemon1.customName}`;
+  // pokeInfoModalBody.innerText = `${pokemon1.customName}`;
 }
+
+// API shit
+async function getPokeapi(pkmn) {
+  const urlGet = `https://pokeapi.co/api/v2/pokemon/${pkmn}/`;
+  const result = await fetch(urlGet);
+  const pokeData = await result.json();
+  return pokeData;
+}
+
+const fetchPkmn = async(pkmn) => {
+  await getPokeapi(pkmn);
+}
+
+const rewritePkmnData = async(pkmn) => {
+  const pkmnData = await getPokeapi(pkmn);
+  POKEMON_METADATA[`${pkmn}`]["id"] = pkmnData.id;
+  POKEMON_METADATA[`${pkmn}`]["height"] = pkmnData.height;
+  POKEMON_METADATA[`${pkmn}`]["weight"] = pkmnData.weight;
+  POKEMON_METADATA[`${pkmn}`]["type"] = pkmnData.types[0].type.name;
+  POKEMON_METADATA[`${pkmn}`]["sprites"]["front"] = {url: pkmnData.sprites.front_default};
+  POKEMON_METADATA[`${pkmn}`]["sprites"]["back"] = {url: pkmnData.sprites.back_default};
+  POKEMON_METADATA[`${pkmn}`]["sprites"]["officialArtwork"] = {url: pkmnData.sprites.other['official-artwork'].front_default};
+  POKEMON_METADATA[`${pkmn}`]["stats"] = {
+    hp: pkmnData.stats[0].base_stat,
+    attack: pkmnData.stats[1].base_stat,
+    defense: pkmnData.stats[2].base_stat,
+    specialAttack: pkmnData.stats[3].base_stat,
+    specialDefense: pkmnData.stats[4].base_stat,
+    speed: pkmnData.stats[5].base_stat,
+  };
+  console.log(POKEMON_METADATA[`${pkmn}`]);
+}
+
+rewritePkmnData("pichu");
+rewritePkmnData("pikachu");
+rewritePkmnData("raichu");
 
 //Tooltip handler
 const tooltip = document.getElementById('pokemon-image-0');
 tooltip.title = `${pokemon1.species}'s stats!`;
-console.log(tooltip.title);
 
 // Gauge handler
 var funGauge = document.getElementById(`fun-gauge`);
