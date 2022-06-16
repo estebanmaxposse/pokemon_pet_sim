@@ -278,17 +278,7 @@ function levelUpModal(pkmn) {
   notificationModalBody.innerText = `${pkmn.customName} is now level ${pkmn.lv}!`;
 }
 
-// Pokémon Info Modal
-let pokeInfoModalTitle = document.getElementById('modal-poke-info-title');
-let pokeInfoModalBody = document.getElementById('modal-poke-info-body');
-
-function pokeInfoModal() {
-  $('#modal-poke-info').modal('show');
-  pokeInfoModalTitle.innerText = `${pokemon1.customName}`;
-  // pokeInfoModalBody.innerText = `${pokemon1.customName}`;
-}
-
-// API shit
+//API handler
 async function getPokeapi(pkmn) {
   const urlGet = `https://pokeapi.co/api/v2/pokemon/${pkmn}/`;
   const result = await fetch(urlGet);
@@ -450,9 +440,69 @@ function firstSprite(pkmn, state) {
   newSprite.drawWithTarget(pokemonSprite);
 }
 
+// Pokémon Info Modal
+let pokeInfoModalTitle = document.getElementById('modal-poke-info-title');
+let pokeInfoModalBody = document.getElementById('modal-poke-info-body');
+
+function pokeInfoModal() {
+  updatePokeInfoModal();
+  $('#modal-poke-info').modal('show');
+  pokeInfoModalTitle.innerText = `${pokemon1.customName}`;
+  // pokeInfoModalBody.innerText = `${pokemon1.customName}`;
+}
+
+let pokeInfoSpecies = document.getElementById('stat-species');
+let pokeInfoHeight = document.getElementById('stat-height');
+let pokeInfoWeight = document.getElementById('stat-weight');
+let pokeInfoId = document.getElementById('stat-id');
+let pokeFightingStats = document.getElementById('pokemon-fighting-stats');
+let pokeInfoImg = document.getElementById('loading-sprite-gif');
+let listPlaceholder = document.getElementById('list-placeholder');
+
+const updatePokeInfoModal = async() => {
+  await rewritePkmnData(pokemon1.species);
+  pokeInfoSpecies.innerText = `${pokemon1.species}`;
+  pokeInfoImg.src = POKEMON_METADATA[`${pokemon1.species}`].sprites.front.url;
+  pokeInfoHeight.innerText = `${POKEMON_METADATA[`${pokemon1.species}`].height/10}m.`;
+  pokeInfoWeight.innerText = `${POKEMON_METADATA[`${pokemon1.species}`].weight*10}g.`;
+  pokeInfoId.innerText = `${POKEMON_METADATA[`${pokemon1.species}`].id}`;
+  let pkmnFightingStats = POKEMON_METADATA[`${pokemon1.species}`]["stats"];
+  pokeFightingStats.innerHTML = '';
+  for (const [key, value] of Object.entries(pkmnFightingStats)){
+    const statList = document.createElement('li');
+    statList.classList.add('stat');
+    let pokeInnerHTML = `
+      <li>
+       <span class="stat-name">${[key]}:</span>
+       <span class="stat-value">${[value]}</span>
+      </li>
+    `;
+    statList.innerHTML = pokeInnerHTML;
+    pokeFightingStats.innerHTML += statList.innerHTML;
+  }
+}
+
+const changeSprite = () => {
+  if (pokeInfoImg.src == POKEMON_METADATA[`${pokemon1.species}`].sprites.front.url) {
+    pokeInfoImg.src = POKEMON_METADATA[`${pokemon1.species}`].sprites.back.url
+  }
+  else {
+    pokeInfoImg.src = POKEMON_METADATA[`${pokemon1.species}`].sprites.front.url;
+  }
+}
+
+//Official Artwork Modals
+let officialArtwork = document.getElementsByClassName('official-artwork');
+
+function artworkModal() {
+  officialArtwork[0].src = POKEMON_METADATA[`${pokemon1.species}`].sprites.officialArtwork.url;
+  $('#modal-artwork').modal('show');
+}
+
 //Intro loader
 $(window).on('load',function(){
   $('#modal-notification').modal('hide');
+  $('#modal-artwork').modal('hide');
   if (!playerData) {
     $('#intro-msg-1').modal('show');
   }

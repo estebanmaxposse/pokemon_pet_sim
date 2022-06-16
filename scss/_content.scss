@@ -37,6 +37,10 @@ a {
   }
 }
 
+ul {
+  padding: 0;
+}
+
 #pokemon-image-0 {
   width: 60%;
   max-width: 400px;
@@ -48,8 +52,15 @@ a {
   }
 }
 
-#loading-gif {
+.loading-gif {
   width: 10vw;
+}
+
+#loading-sprite-gif {
+  max-width: none;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
 }
 
 .pokemon-container {
@@ -60,7 +71,6 @@ a {
   .pokemon {
     display: flex;
     justify-content: center;
-
     div {
       & *:first-child {
         display: none;

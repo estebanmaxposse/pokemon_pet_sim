@@ -103,6 +103,9 @@ a {
     text-decoration: none;
     color: white; }
 
+ul {
+  padding: 0; }
+
 #pokemon-image-0 {
   width: 60%;
   max-width: 400px;
@@ -112,8 +115,14 @@ a {
   #pokemon-image-0:hover {
     cursor: pointer; }
 
-#loading-gif {
+.loading-gif {
   width: 10vw; }
+
+#loading-sprite-gif {
+  max-width: none;
+  cursor: pointer;
+  height: 100%;
+  width: 100%; }
 
 .pokemon-container {
   grid-area: content;
@@ -222,6 +231,47 @@ a {
     -moz-border-radius: 0px;
     border-radius: 0px; }
 
+#modal-poke-info-body {
+  padding: 0;
+  background-color: white; }
+
+#modal-poke-info-header, #modal-poke-info-footer {
+  background-color: red; }
+
+.stat-list {
+  list-style-type: none; }
+  .stat-list .stat-name {
+    font-weight: 900; }
+
+.stats-container {
+  display: grid;
+  grid-template-areas: 'pokeImage pokeImage pokeImage pokeList1' 'pokeList2  pokeList2 pokeList2 pokeList2'; }
+  .stats-container-image {
+    grid-area: pokeImage;
+    align-self: center;
+    justify-self: center;
+    width: 100%; }
+  .stats-container-list1 {
+    grid-area: pokeList1;
+    border: 1px dashed black;
+    padding: 8px; }
+  .stats-container-list2 {
+    grid-area: pokeList2;
+    border: 1px dashed black; }
+
+.stats-container-list2 > ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; }
+
+.pokemon-stats > li {
+  display: inline-block;
+  margin: 0px 8px;
+  text-align: center; }
+
+.pokemon-char {
+  display: grid; }
+
 @media (min-device-width: 683px) {
   body {
     font-size: 2em; }
@@ -244,6 +294,8 @@ a {
     min-width: 15vw; }
   .modal {
     font-size: 2rem; }
+  #modal-poke-info-body {
+    font-size: 1.5rem; }
   .modal-content {
     border: 4px solid black; }
     .modal-content .modal-header {
@@ -287,3 +339,19 @@ a {
     font-size: 1.75rem; }
   #play-button, #feed-button, #rest-button {
     border: 4px solid black; } }
+
+@media (max-device-width: 683px) {
+  .stats-container {
+    grid-template-areas: 'pokeImage' 'pokeList1' 'pokeList2'; }
+  .pokemon-char {
+    grid-template-columns: repeat(2, 1fr); }
+  .tooltip {
+    display: none; } }
+
+@media (min-device-width: 684px) and (max-device-width: 1024px) {
+  .stats-container {
+    grid-template-areas: 'pokeImage pokeImage pokeImage pokeList1' 'pokeList2 pokeList2 pokeList2 pokeList2'; }
+  .pokemon-char {
+    grid-template-columns: auto; }
+  .tooltip {
+    display: none; } }
