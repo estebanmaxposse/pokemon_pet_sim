@@ -60,10 +60,6 @@
   }
 }
 
-#food-gauge {
-  // line-height: 30px;
-}
-
 .main-buttons {
   grid-area: buttons;
   align-items: center;
@@ -106,4 +102,80 @@
     color: black;
     }
   }
+}
+
+.tooltip {
+  font-family: $font-main;
+  font-size: 1.25rem;
+  .tooltip-inner {
+    -webkit-border-radius:0px;
+    -moz-border-radius:0px;
+    border-radius:0px;
+  }
+}
+
+//pokeInfoModal
+#modal-poke-info-body {
+  padding: 0;
+  background-color: white;
+}
+
+#modal-poke-info-header, #modal-poke-info-footer {
+  background-color: red;
+}
+
+
+
+.stat-list {
+  list-style-type: none;
+  .stat {
+    &-name {
+      font-weight: 900;
+    }
+    &-value {
+      &:before {
+        //content: "\00a0 \00a0 \00a0 \00a0 \00a0";
+      }
+    }
+  }
+}
+
+.stats-container {
+  display: grid;
+  grid-template-areas: 'pokeImage pokeImage pokeImage pokeList1' 'pokeList2  pokeList2 pokeList2 pokeList2';
+  &-image {
+    grid-area: pokeImage;
+    align-self: center;
+    justify-self: center;
+    width: 100%;
+  }
+  &-list1 {
+    grid-area: pokeList1;
+    border: 1px dashed black;
+    padding: 8px;
+  }
+  &-list2 {
+    grid-area: pokeList2;
+    border: 1px dashed black;
+  }
+}
+
+.stats-container-list2 > ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pokemon-stats > li {
+  display: inline-block;
+  margin: 0px 8px;
+  text-align: center;
+}
+
+.pokemon-char {
+  display: grid;
+}
+
+#modal-artwork-content {
+  background-color: white;
 }

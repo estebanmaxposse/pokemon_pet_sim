@@ -47,6 +47,10 @@
     font-size: 2rem;
   }
 
+  #modal-poke-info-body {
+    font-size: 1.5rem;
+  }
+
   .modal-content {
     border: 4px solid black;
     .modal-header {
@@ -66,8 +70,8 @@
 
   .toast {
     font-size: 1.5rem;
-
   }
+
 }
 
 @media (min-device-width : 1024px) {
@@ -131,5 +135,35 @@
 
   #play-button, #feed-button, #rest-button {
     border: 4px solid black;
+  }
+}
+
+@media (max-device-width : 683px){
+  .stats-container {
+    grid-template-areas: 'pokeImage'
+    'pokeList1' 'pokeList2';
+  }
+
+  .pokemon-char {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tooltip {
+    display: none;
+  }
+}
+
+@media (min-device-width : 684px) and (max-device-width : 1024px){
+  .stats-container {
+    grid-template-areas: 'pokeImage pokeImage pokeImage pokeList1'
+    'pokeList2 pokeList2 pokeList2 pokeList2';
+  }
+
+  .pokemon-char {
+    grid-template-columns: auto;
+  }
+
+  .tooltip {
+    display: none;
   }
 }

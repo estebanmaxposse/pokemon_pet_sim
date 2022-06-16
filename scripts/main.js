@@ -12,7 +12,7 @@ const POKEMON_METADATA = {
     	},
       "eating": "",
     },
-    "evolvesAt": 7,
+    "evolvesAt": 2,
     "evolvesInto": "pikachu",
   },
   "pikachu": {
@@ -21,7 +21,7 @@ const POKEMON_METADATA = {
     "sprites": {
       "idle": {
         "url": 'https://i.imgur.com/OKczAEr.png',
-        "count": 16,
+        "count": 10,
       },
     },
     "evolvesAt": 3,
@@ -184,6 +184,8 @@ class Pokemon {
   }
 }
 
+const pokemon1 = new Pokemon("pichu", GENDER_MALE, "no_sprite_yet", 0, 1, getRandomInt(), getRandomInt(), getRandomInt());
+
 //Evolution data
 function getEvolutionData(pokemonName) {
   const pokemonKey = Object.keys(POKEMON_METADATA).find(k => pokemonName === k);
@@ -276,6 +278,42 @@ function levelUpModal(pkmn) {
   notificationModalBody.innerText = `${pkmn.customName} is now level ${pkmn.lv}!`;
 }
 
+//API handler
+async function getPokeapi(pkmn) {
+  const urlGet = `https://pokeapi.co/api/v2/pokemon/${pkmn}/`;
+  const result = await fetch(urlGet);
+  const pokeData = await result.json();
+  return pokeData;
+}
+
+const fetchPkmn = async(pkmn) => {
+  await getPokeapi(pkmn);
+}
+
+const rewritePkmnData = async(pkmn) => {
+  const pkmnData = await getPokeapi(pkmn);
+  POKEMON_METADATA[`${pkmn}`]["id"] = pkmnData.id;
+  POKEMON_METADATA[`${pkmn}`]["height"] = pkmnData.height;
+  POKEMON_METADATA[`${pkmn}`]["weight"] = pkmnData.weight;
+  POKEMON_METADATA[`${pkmn}`]["type"] = pkmnData.types[0].type.name;
+  POKEMON_METADATA[`${pkmn}`]["sprites"]["front"] = {url: pkmnData.sprites.front_default};
+  POKEMON_METADATA[`${pkmn}`]["sprites"]["back"] = {url: pkmnData.sprites.back_default};
+  POKEMON_METADATA[`${pkmn}`]["sprites"]["officialArtwork"] = {url: pkmnData.sprites.other['official-artwork'].front_default};
+  POKEMON_METADATA[`${pkmn}`]["stats"] = {
+    hp: pkmnData.stats[0].base_stat,
+    attack: pkmnData.stats[1].base_stat,
+    defense: pkmnData.stats[2].base_stat,
+    specialAttack: pkmnData.stats[3].base_stat,
+    specialDefense: pkmnData.stats[4].base_stat,
+    speed: pkmnData.stats[5].base_stat,
+  };
+  console.log(POKEMON_METADATA[`${pkmn}`]);
+}
+
+rewritePkmnData("pichu");
+rewritePkmnData("pikachu");
+rewritePkmnData("raichu");
+
 // Gauge handler
 var funGauge = document.getElementById(`fun-gauge`);
 var funValue = funGauge.getAttribute(`value`);
@@ -323,6 +361,8 @@ function progressGauge(buttonType) {
       evolutionModal(pkmn);
       loadPokemonSprite(evolutionData.species, "idle");
       pkmn.species = pokemonData.evolvesInto;
+      tooltip.title = `${pkmn.species}'s stats!`;
+      tooltipTriggerList = new bootstrap.Tooltip(tooltip)
     }
   })
 }
@@ -354,8 +394,6 @@ var introModal = document.getElementById('intro-msg-1');
 var playerData = JSON.parse(localStorage.getItem('playerData'));
 
 //store pokemon stats
-const pokemon1 = new Pokemon("pichu", GENDER_MALE, "no_sprite_yet", 0, 1, getRandomInt(), getRandomInt(), getRandomInt());
-
 function storeStats() {
   let storePokemon = JSON.stringify(pokemon1);
   localStorage.setItem("storePokemon", storePokemon);
@@ -398,14 +436,84 @@ function firstSprite(pkmn, state) {
   newSprite.drawWithTarget(pokemonSprite);
 }
 
+// Pokémon Info Modal
+let pokeInfoModalTitle = document.getElementById('modal-poke-info-title');
+let pokeInfoModalBody = document.getElementById('modal-poke-info-body');
+
+function pokeInfoModal() {
+  updatePokeInfoModal();
+  $('#modal-poke-info').modal('show');
+  pokeInfoModalTitle.innerText = `${pokemon1.customName}`;
+  // pokeInfoModalBody.innerText = `${pokemon1.customName}`;
+}
+
+let pokeInfoSpecies = document.getElementById('stat-species');
+let pokeInfoHeight = document.getElementById('stat-height');
+let pokeInfoWeight = document.getElementById('stat-weight');
+let pokeInfoId = document.getElementById('stat-id');
+let pokeFightingStats = document.getElementById('pokemon-fighting-stats');
+let pokeInfoImg = document.getElementById('loading-sprite-gif');
+let listPlaceholder = document.getElementById('list-placeholder');
+
+const updatePokeInfoModal = async() => {
+  await rewritePkmnData(pokemon1.species);
+  pokeInfoSpecies.innerText = `${pokemon1.species}`;
+  pokeInfoImg.src = POKEMON_METADATA[`${pokemon1.species}`].sprites.front.url;
+  pokeInfoHeight.innerText = `${POKEMON_METADATA[`${pokemon1.species}`].height/10}m.`;
+  pokeInfoWeight.innerText = `${POKEMON_METADATA[`${pokemon1.species}`].weight*10}g.`;
+  pokeInfoId.innerText = `${POKEMON_METADATA[`${pokemon1.species}`].id}`;
+  let pkmnFightingStats = POKEMON_METADATA[`${pokemon1.species}`]["stats"];
+  pokeFightingStats.innerHTML = '';
+  for (const [key, value] of Object.entries(pkmnFightingStats)){
+    const statList = document.createElement('li');
+    statList.classList.add('stat');
+    let pokeInnerHTML = `
+      <li>
+       <span class="stat-name">${[key]}:</span>
+       <span class="stat-value">${[value]}</span>
+      </li>
+    `;
+    statList.innerHTML = pokeInnerHTML;
+    pokeFightingStats.innerHTML += statList.innerHTML;
+  }
+}
+
+const changeSprite = () => {
+  if (pokeInfoImg.src == POKEMON_METADATA[`${pokemon1.species}`].sprites.front.url) {
+    pokeInfoImg.src = POKEMON_METADATA[`${pokemon1.species}`].sprites.back.url
+  }
+  else {
+    pokeInfoImg.src = POKEMON_METADATA[`${pokemon1.species}`].sprites.front.url;
+  }
+}
+
+//Official Artwork Modals
+let officialArtwork = document.getElementsByClassName('official-artwork');
+
+function artworkModal() {
+  officialArtwork[0].src = POKEMON_METADATA[`${pokemon1.species}`].sprites.officialArtwork.url;
+  $('#modal-artwork').modal('show');
+}
+
+//Tooltip handler
+const tooltip = document.getElementById('pokemon-image-0');
+tooltip.title = `${pokemon1.species}'s stats!`;
+
+//Intro loader
 $(window).on('load',function(){
   $('#modal-notification').modal('hide');
+  $('#modal-artwork').modal('hide');
   if (!playerData) {
     $('#intro-msg-1').modal('show');
   }
   firstSprite(pokemon1, "idle");
   loadStatsCache();
   loadPokemonSprite(pokemon1.species, "idle");
+  tooltipTriggerList = new bootstrap.Tooltip(tooltip);
+  tooltip.title = `${pokemon1.species}'s stats!`;
+  tooltipTriggerList = new bootstrap.Tooltip(tooltip);
+  console.log(pokemon1);
+  console.log(tooltip.title);
   getStats();
 });
 

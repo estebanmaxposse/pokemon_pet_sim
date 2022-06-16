@@ -1,8 +1,9 @@
 //general styles
 body {
   min-height: 100vh;
-  background-image: url(https://i.imgur.com/Xa1Nl85.gif);
-  background-position: bottom;
+  background-image: url(https://i.imgur.com/pOX8RjE.jpg);
+  background-position: 50% 50%;
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
   font-family: $font-main;
@@ -36,16 +37,30 @@ a {
   }
 }
 
+ul {
+  padding: 0;
+}
+
 #pokemon-image-0 {
   width: 60%;
   max-width: 400px;
   height: auto;
   display: flex;
   justify-content: center;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
-#loading-gif {
+.loading-gif {
   width: 10vw;
+}
+
+#loading-sprite-gif {
+  max-width: none;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
 }
 
 .pokemon-container {
@@ -56,7 +71,6 @@ a {
   .pokemon {
     display: flex;
     justify-content: center;
-
     div {
       & *:first-child {
         display: none;
