@@ -272,6 +272,9 @@ ul {
 .pokemon-char {
   display: grid; }
 
+#modal-artwork-content {
+  background-color: white; }
+
 @media (min-device-width: 683px) {
   body {
     font-size: 2em; }

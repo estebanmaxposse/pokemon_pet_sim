@@ -314,10 +314,6 @@ rewritePkmnData("pichu");
 rewritePkmnData("pikachu");
 rewritePkmnData("raichu");
 
-//Tooltip handler
-const tooltip = document.getElementById('pokemon-image-0');
-tooltip.title = `${pokemon1.species}'s stats!`;
-
 // Gauge handler
 var funGauge = document.getElementById(`fun-gauge`);
 var funValue = funGauge.getAttribute(`value`);
@@ -499,6 +495,10 @@ function artworkModal() {
   $('#modal-artwork').modal('show');
 }
 
+//Tooltip handler
+const tooltip = document.getElementById('pokemon-image-0');
+tooltip.title = `${pokemon1.species}'s stats!`;
+
 //Intro loader
 $(window).on('load',function(){
   $('#modal-notification').modal('hide');
@@ -506,10 +506,14 @@ $(window).on('load',function(){
   if (!playerData) {
     $('#intro-msg-1').modal('show');
   }
-  tooltipTriggerList = new bootstrap.Tooltip(tooltip)
   firstSprite(pokemon1, "idle");
   loadStatsCache();
   loadPokemonSprite(pokemon1.species, "idle");
+  tooltipTriggerList = new bootstrap.Tooltip(tooltip);
+  tooltip.title = `${pokemon1.species}'s stats!`;
+  tooltipTriggerList = new bootstrap.Tooltip(tooltip);
+  console.log(pokemon1);
+  console.log(tooltip.title);
   getStats();
 });
 
