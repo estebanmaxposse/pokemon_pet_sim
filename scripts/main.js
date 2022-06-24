@@ -240,7 +240,7 @@ const pichuCry = new Audio("172.wav");
 const pikachuCry = new Audio("025.wav");
 const raichuCry = new Audio("026.wav");
 const statUpFX = new Audio("stats_up.mp3");
-const statDownFX = new Audio("stats_up.mp3");
+const statDownFX = new Audio("stats_down.mp3");
 
 audibleButton.forEach(button => {
   button.addEventListener("click", () => {
@@ -294,7 +294,7 @@ function playStatFX(stat) {
   if (stat === "up") {
     statUpFX.play();
   }
-  else if (stat=== "down") {
+  else if (stat === "down") {
     statDownFX.play();
   }
 }
@@ -378,18 +378,18 @@ function progressGauge(buttonType) {
     pokemon1.addFun(30);
     pokemon1.addRest(-20);
     getStats();
-    playStatFX(up);
+    playStatFX("up");
   }
   else if (buttonType == "feed") {
     pokemon1.addHunger(40);
     pokemon1.addRest(-10);
     getStats();
-    playStatFX(up);
+    playStatFX("up");
   }
   else if (buttonType == "rest") {
     pokemon1.addRest(70);
     newDay();
-    playStatFX(down);
+    playStatFX("down");
   }
   happinessGauge.setAttribute("value", pokemon1.happiness);
 
