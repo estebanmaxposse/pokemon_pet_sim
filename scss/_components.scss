@@ -124,8 +124,6 @@
   background-color: red;
 }
 
-
-
 .stat-list {
   list-style-type: none;
   .stat {
@@ -178,4 +176,21 @@
 
 #modal-artwork-content {
   background-color: white;
+}
+
+#modal-about {
+  ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2,auto);
+    li {
+      a {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+  &-body {
+    padding: .5rem;
+  }
 }

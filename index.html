@@ -38,10 +38,10 @@
               <div class="offcanvas-body p-lg-0 menu">
                 <ul id="menu" class="navbar-nav">
                   <li class="nav-item">
-                    <a href="#" class="nav-link">ABOUT</a>
+                    <a href="#" class="nav-link" onclick="showAboutModal()">ABOUT</a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="nav-link">FAQ</a>
+                    <a href="#" class="nav-link" onclick="showFAQsModal()">FAQ</a>
                   </li>
                 </ul>
 
@@ -82,7 +82,7 @@
       <!-- Pokémon -->
       <div class="pokemon-container">
         <div class="pokemon">
-          <div id="pokemon-image-0" data-bs-toggle="tooltip" title="" onclick="pokeInfoModal(); buttonFX.play()">
+          <div id="pokemon-image-0" data-bs-toggle="tooltip" title="" onclick="pokeInfoModal(); buttonFX.play(); playCry()">
             <img class="img-fluid loading-gif" crossorigin="anonymous" src="https://i.imgur.com/IyZFK1O.gif" alt="pokemon-pichu" id="loading-gif">
           </div>
         </div>
@@ -189,7 +189,7 @@
           <div class="modal-body" id="modal-poke-info-body">
             <div class="stats-container">
               <div class="stats-container-image">
-                <img class="img-fluid loading-gif" crossorigin="anonymous" src="https://i.imgur.com/IyZFK1O.gif" alt="pokemon-loading" id="loading-sprite-gif" onclick="changeSprite(); buttonFX.play()">
+                <img class="img-fluid loading-gif" crossorigin="anonymous" src="https://i.imgur.com/IyZFK1O.gif" alt="pokemon-loading" id="loading-sprite-gif" onclick="changeSprite(); buttonFX.play(); playCry()">
               </div>
               <div class="stats-container-list1">
                 <ul class="stat-list pokemon-char">
@@ -214,7 +214,7 @@
                     <span class="stat-value" id="stat-id"></span>
                   </li>
                   <li>
-                    <button type="button" class="btn btn-secondary" name="button" onclick="artworkModal()">Official Artwork</button>
+                    <button type="button" class="btn btn-secondary" name="button" onclick="showArtworkModal()">Official Artwork</button>
                   </li>
                 </ul>
               </div>
@@ -252,6 +252,104 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body" id="modal-notification-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About modal -->
+    <div class="modal fade" id="modal-about" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title" id="modal-about-title">
+              About Pokémon PetSimulator
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modal-about-body">
+            <p>Pokémon Simulator is a project made from scratch with HTML, CSS and Javascript by Esteban Posse. It's a passion project made to learn the ins and outs of Javascript as a programming language to program games and as a simulator.</p>
+            <p><b>My socials!</b></p>
+            <ul class="socials">
+              <li>
+                <a href="https://www.instagram.com/esteban.posse98/" target="_blank">
+                  <i class="fa-brands fa-instagram fa-l fa-fw"></i>
+                  <span class="social-text">Instagram</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/sleepy_esteban" target="_blank">
+                  <i class="fa-brands fa-twitter fa-l fa-fw"></i>
+                  <span class="social-text">Twitter</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.facebook.com/esteban.posse.1/" target="_blank">
+                  <i class="fa-brands fa-facebook-f fa-l fa-fw"></i>
+                  <span class="social-text">Facebook</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/in/estebanposse98/" target="_blank">
+                  <i class="fa-brands fa-linkedin-in fa-l fa-fw"></i>
+                  <span class="social-text">LinkedIn</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/estebanmaxposse" target="_blank">
+                  <i class="fa-brands fa-github fa-l fa-fw"></i>
+                  <span class="drawer-social-text">GitHub</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQs modal -->
+    <div class="modal fade" id="modal-faq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title" id="modal-faq-title">
+              Frequetly Asked Questions
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modal-faq-body">
+            <ul>
+              <li>
+                <b>How do I play the game?</b>
+              </li>
+              <ul>
+                <li>
+                  Just try to keep your Pokémon happy by controlling their stats using the buttons below!
+                </li>
+              </ul>
+              <li>
+                <b>Can they evolve?</b>
+              </li>
+              <ul>
+                <li>
+                  Yes! By leveling them up to a certain level, your Pokémon will evolve!
+                </li>
+              </ul>
+              <li>
+                <b>Where can I find my Pokémon's stats?</b>
+              </li>
+              <ul>
+                <li>
+                  You can click your Pokémon to check out their stats and official artwork!
+                </li>
+              </ul>
+            </ul>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok!</button>

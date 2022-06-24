@@ -104,7 +104,8 @@ a {
     color: white; }
 
 ul {
-  padding: 0; }
+  padding: 0;
+  list-style: none; }
 
 #pokemon-image-0 {
   width: 60%;
@@ -274,6 +275,17 @@ ul {
 
 #modal-artwork-content {
   background-color: white; }
+
+#modal-about ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, auto); }
+  #modal-about ul li a {
+    display: flex;
+    align-items: center; }
+
+#modal-about-body {
+  padding: .5rem; }
 
 @media (min-device-width: 683px) {
   body {
