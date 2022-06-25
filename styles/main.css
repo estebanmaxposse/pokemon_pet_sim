@@ -198,6 +198,11 @@ ul {
   top: 50%;
   display: none; }
 
+label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+
 .fa-angles-up {
   color: red; }
 
