@@ -372,6 +372,39 @@ function getStats() {
   happinessGauge.setAttribute("value", pokemon1.happiness);
 }
 
+//Guage's animations handler
+const animateCSS = (element, animation, prefix = 'animate__') =>
+  // We create a Promise and return it
+  new Promise((resolve, reject) => {
+    const animationName = `${prefix}${animation}`;
+    const node = document.getElementById(element);
+
+    node.style.display = "block";
+
+    node.classList.add(`${prefix}animated`, animationName);
+
+    // When the animation ends, we clean the classes and resolve the Promise
+    function handleAnimationEnd(event) {
+      event.stopPropagation();
+      node.classList.remove(`${prefix}animated`, animationName);
+      resolve('Animation ended');
+    }
+
+    node.addEventListener('animationend', handleAnimationEnd, {once: true});
+  });
+
+async function animateArrowUp(arrowID) {
+  await animateCSS(arrowID, 'fadeInUp');
+  await animateCSS(arrowID, 'fadeOutUp');
+  document.getElementById(arrowID).style.display = "none";
+}
+
+async function animateArrowDown(arrowID) {
+  await animateCSS(arrowID, 'fadeInDown');
+  await animateCSS(arrowID, 'fadeOutDown');
+  document.getElementById(arrowID).style.display = "none";
+}
+
 //buttons
 function progressGauge(buttonType) {
   if (buttonType == "play") {
@@ -379,17 +412,27 @@ function progressGauge(buttonType) {
     pokemon1.addRest(-20);
     getStats();
     playStatFX("up");
+    animateArrowUp("fun-up");
+    animateArrowDown("rest-down");
+    animateArrowUp("happiness-up");
   }
   else if (buttonType == "feed") {
     pokemon1.addHunger(40);
     pokemon1.addRest(-10);
     getStats();
     playStatFX("up");
+    animateArrowUp("food-up");
+    animateArrowDown("rest-down");
+    animateArrowUp("happiness-up");
   }
   else if (buttonType == "rest") {
     pokemon1.addRest(70);
     newDay();
     playStatFX("down");
+    animateArrowUp("rest-up");
+    animateArrowDown("food-down");
+    animateArrowDown("fun-down");
+    animateArrowUp("happiness-up");
   }
   happinessGauge.setAttribute("value", pokemon1.happiness);
 

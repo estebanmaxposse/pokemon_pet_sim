@@ -180,6 +180,7 @@ ul {
   justify-items: center; }
 
 .gauge {
+  position: relative;
   display: flex;
   flex-direction: column; }
   .gauge::-webkit-meter-bar {
@@ -188,6 +189,20 @@ ul {
   .gauge::-webkit-meter-optimum-value {
     background-color: green;
     background-size: 100% 100%; }
+
+.stat-arrow {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  left: 25%;
+  top: 50%;
+  display: none; }
+
+.fa-angles-up {
+  color: red; }
+
+.fa-angles-down {
+  color: blue; }
 
 .main-buttons {
   grid-area: buttons;
