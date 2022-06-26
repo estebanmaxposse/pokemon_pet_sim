@@ -57,7 +57,7 @@
 
                   <button type="button" class="btn button" name="button" onclick="rerollStats()">Reroll Stats</button>
 
-                  <button type="button" class="btn button" name="button" onclick="" id="music-toggle">Music</button>
+                  <button type="button" class="btn button" name="button" id="music-toggle">Music</button>
                 </div>
 
               </div>
@@ -129,7 +129,7 @@
       <!-- Pokémon -->
       <div class="pokemon-container">
         <div class="pokemon">
-          <div id="pokemon-image-0" data-bs-toggle="tooltip" title="" onclick="pokeInfoModal(); buttonFX.play(); playCry()">
+          <div id="pokemon-image-0" data-bs-toggle="tooltip" title="" onclick="pokeInfoModal()">
             <img class="img-fluid loading-gif" crossorigin="anonymous" src="https://i.imgur.com/IyZFK1O.gif" alt="pokemon-pichu" id="loading-gif">
           </div>
         </div>
@@ -236,7 +236,7 @@
           <div class="modal-body" id="modal-poke-info-body">
             <div class="stats-container">
               <div class="stats-container-image">
-                <img class="img-fluid loading-gif" crossorigin="anonymous" src="https://i.imgur.com/IyZFK1O.gif" alt="pokemon-loading" id="loading-sprite-gif" onclick="changeSprite(); buttonFX.play(); playCry()">
+                <img class="img-fluid loading-gif" crossorigin="anonymous" src="https://i.imgur.com/IyZFK1O.gif" alt="pokemon-loading" id="loading-sprite-gif" onclick="changeSprite()">
               </div>
               <div class="stats-container-list1">
                 <ul class="stat-list pokemon-char">
@@ -244,6 +244,11 @@
                     <span class="stat-name">Species:</span>
                     <br>
                     <span class="stat-value" id="stat-species"></span>
+                  </li>
+                  <li class="stat">
+                    <span class="stat-name">Level:</span>
+                    <br>
+                    <span class="stat-value" id="stat-level"></span>
                   </li>
                   <li class="stat">
                     <span class="stat-name">Height:</span>

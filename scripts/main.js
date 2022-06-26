@@ -10,7 +10,6 @@ const POKEMON_METADATA = {
     		"url": 'https://i.imgur.com/Asn1lG5.png',
     		"count": 10,
     	},
-      "eating": "",
     },
     "evolvesAt": 7,
     "evolvesInto": "pikachu",
@@ -59,26 +58,10 @@ Object.keys(POKEMON_METADATA).forEach(p => {
   POKEMON_PIXELS[p] = pixels;
 });
 
-const pichuIdleData = POKEMON_METADATA['pichu'].sprites.idle;
-const pichuIdle = new FatPixels({
-  scale  : 4.0,
-	speed  : "10fps",
-	sprite : {...pichuIdleData, direction: 'x'},
-});
-
-const pikachuIdleData = POKEMON_METADATA['pikachu'].sprites.idle;
-const pikachuIdle = new FatPixels({
-  scale  : 4.0,
-	speed  : "10fps",
-	sprite : {...pikachuIdleData, direction: 'x'},
-});
-
-const raichuIdleData = POKEMON_METADATA['raichu'].sprites.idle;
-const raichuIdle = new FatPixels({
-  scale  : 4.0,
-	speed  : "10fps",
-	sprite : {...pichuIdleData, direction: 'x'},
-});
+//RNG
+function getRandomInt(min=0, max=100) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 class Pokemon {
   constructor(species, gender) {
@@ -187,7 +170,6 @@ const pokemon1 = new Pokemon("pichu", GENDER_MALE, "no_sprite_yet", 0, 1, getRan
 
 //Evolution data
 function getEvolutionData(pokemonName) {
-  const pokemonKey = Object.keys(POKEMON_METADATA).find(k => pokemonName === k);
   const pokemonData = POKEMON_METADATA[pokemonName];
 
   const evolution = pokemonData.evolvesInto;
@@ -200,10 +182,7 @@ function getEvolutionData(pokemonName) {
 }
 
 function getEvolutionLV(pokemonName) {
-  const pokemonKey = Object.keys(POKEMON_METADATA).find(k => pokemonName === k);
-  const pokemonData = POKEMON_METADATA[pokemonName];
-
-  const pokemonEvolveLV = pokemonData.evolvesAt;
+  const pokemonEvolveLV = POKEMON_METADATA[pokemonName].evolvesAt;
   if (pokemonEvolveLV) {
     return POKEMON_METADATA[pokemonEvolveLV];
   }
@@ -211,29 +190,19 @@ function getEvolutionLV(pokemonName) {
 }
 
 function getPokemonImage(pokemonName) {
-  // TODO check; refactor
-  const pokemonKey = Object.keys(POKEMON_METADATA).find(k => pokemonName === k);
-
-  const pokemonData = POKEMON_METADATA[pokemonName];
-
-  return pokemonData.sprites;
-}
-
-//RNG
-function getRandomInt(min=0, max=100) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+  return POKEMON_METADATA[pokemonName].sprites;
 }
 
 // Sound effects
-const buttonFX = new Audio("emerald_0005.wav");
-const mainBG = new Audio("bg-theme_mixdown.mp3");
-const pichuCry = new Audio("172.wav");
-const pikachuCry = new Audio("025.wav");
-const raichuCry = new Audio("026.wav");
-const statUpFX = new Audio("stats_up.mp3");
-const statDownFX = new Audio("stats_down.mp3");
-const evolutionSFX = new Audio("31 Fanfare- Evolution.mp3");
-const levelUpSFX = new Audio("Pokémon Level Up Sound Effect.mp3");
+const buttonFX = new Audio("sfxs/emerald_0005.wav");
+const mainBG = new Audio("sfxs/bg-theme_mixdown.mp3");
+const pichuCry = new Audio("sfxs/172.wav");
+const pikachuCry = new Audio("sfxs/025.wav");
+const raichuCry = new Audio("sfxs/026.wav");
+const statUpFX = new Audio("sfxs/stats_up.mp3");
+const statDownFX = new Audio("sfxs/stats_down.mp3");
+const evolutionSFX = new Audio("sfxs/31 Fanfare- Evolution.mp3");
+const levelUpSFX = new Audio("sfxs/Pokémon Level Up Sound Effect.mp3");
 
 const audibleButton = document.querySelectorAll("button");
 audibleButton.forEach(button => {
@@ -247,11 +216,11 @@ musicToggle.onclick = () => {
   if (mainBG.paused) {
     mainBG.play();
   } else {
-    music_stop();
+    musicStop();
   }
 }
 
-function music_stop() {
+function musicStop() {
   mainBG.pause();
   mainBG.currentTime = 0;
 }
@@ -282,7 +251,6 @@ function playCry() {
   }
 }
 
-// TODO: maybe a boolean can make this shorter
 function playStatFX(stat) {
   if (stat === "up") {
     statUpFX.play();
@@ -324,7 +292,7 @@ async function fetchPkmn(pkmn) {
   await getPokeapi(pkmn);
 }
 
-async function rewritePkmnData(pkmn) { // TODO check
+async function rewritePkmnData(pkmn) {
   const pkmnData = await getPokeapi(pkmn);
   POKEMON_METADATA[`${pkmn}`]["id"] = pkmnData.id;
   POKEMON_METADATA[`${pkmn}`]["height"] = pkmnData.height;
@@ -396,6 +364,10 @@ async function animateArrowDown(arrowID) {
   document.getElementById(arrowID).style.display = "none";
 }
 
+//Tooltip handler
+const tooltip = document.getElementById('pokemon-image-0');
+tooltip.title = `${pokemon1.species}'s stats!`;
+
 //buttons
 function progressGauge(buttonType) {
   if (buttonType == "play") {
@@ -427,22 +399,23 @@ function progressGauge(buttonType) {
   }
   happinessGauge.setAttribute("value", pokemon1.happiness);
 
-  //pokemon levels up and/or evolves
-  [pokemon1].forEach((pkmn, pkmnIndex) => {
-    pkmn.setOnLevelUpListener(showLevelUpModal);
-    const pokemonData = POKEMON_METADATA[pkmn.species];
-    if (pokemonData.evolvesAt && pkmn.lv >= pokemonData.evolvesAt) {
-      const evolutionData = getEvolutionData(pkmn.species);
-      showEvolutionModal(pkmn);
-      loadPokemonSprite(evolutionData.species, "idle");
-      pkmn.species = pokemonData.evolvesInto;
-      tooltip.title = `${pkmn.species}'s stats!`;
-      tooltipTriggerList = new bootstrap.Tooltip(tooltip)
-    }
-  })
+  //Pokemon levels up and/or evolves
+  pokemon1.setOnLevelUpListener(showLevelUpModal);
+  const pokemonData = POKEMON_METADATA[pokemon1.species];
+  if (pokemonData.evolvesAt && pokemon1.lv >= pokemonData.evolvesAt) {
+    const evolutionData = getEvolutionData(pokemon1.species);
+    showEvolutionModal(pokemon1);
+    loadPokemonSprite(evolutionData.species, "idle");
+    pokemon1.species = pokemonData.evolvesInto;
+
+    //Modifies and restars tooltips
+    tooltip.title = `${pokemon1.species}'s stats!`;
+    tooltipTriggerList = new bootstrap.Tooltip(tooltip)
+  }
 }
 
-//reset button
+
+//Reset buttons
 function rerollStats() {
   let storedPokemon = JSON.parse(localStorage.getItem('storePokemon'));
 
@@ -496,19 +469,30 @@ if (playerData != null) {
   pokemon1.customName = playerData.pokemonName;
 }
 
+//Load sprites of the Pokemon
 function loadPokemonSprite(pkmnSpecies, state) {
-  const canvas = document.getElementsByTagName('canvas');
-  canvas[0].remove();
+  document.getElementsByTagName('canvas')[0].remove();
 
   const pokemonSprite = document.getElementById('pokemon-image-0');
   const newSprite = POKEMON_PIXELS[pkmnSpecies][state];
   newSprite.drawWithTarget(pokemonSprite);
 }
 
-function firstSprite(pkmnSpecies, state) { // Maybe should receive pikmin species
+function firstSprite(pkmnSpecies, state) {
   const pokemonSprite = document.getElementById('pokemon-image-0');
   const newSprite = POKEMON_PIXELS[pkmnSpecies.species][state];
   newSprite.drawWithTarget(pokemonSprite);
+}
+
+function changeSprite() {
+  if (pokeInfoImg.src == POKEMON_METADATA[`${pokemon1.species}`].sprites.front.url) {
+    pokeInfoImg.src = POKEMON_METADATA[`${pokemon1.species}`].sprites.back.url
+  }
+  else {
+    pokeInfoImg.src = POKEMON_METADATA[`${pokemon1.species}`].sprites.front.url;
+  }
+  buttonFX.play();
+  playCry();
 }
 
 // Pokémon Info Modal
@@ -518,10 +502,13 @@ const pokeInfoModalBody = document.getElementById('modal-poke-info-body');
 function pokeInfoModal() {
   updatePokeInfoModal();
   $('#modal-poke-info').modal('show');
+  buttonFX.play();
+  playCry();
   pokeInfoModalTitle.innerText = `${pokemon1.customName}`;
 }
 
 const pokeInfoSpecies = document.getElementById('stat-species');
+const pokeInfoLevel = document.getElementById('stat-level');
 const pokeInfoHeight = document.getElementById('stat-height');
 const pokeInfoWeight = document.getElementById('stat-weight');
 const pokeInfoId = document.getElementById('stat-id');
@@ -529,16 +516,17 @@ const pokeFightingStats = document.getElementById('pokemon-fighting-stats');
 const pokeInfoImg = document.getElementById('loading-sprite-gif');
 const listPlaceholder = document.getElementById('list-placeholder');
 
-const updatePokeInfoModal = async() => { // TODO check
+const updatePokeInfoModal = async() => {
   await rewritePkmnData(pokemon1.species);
   pokeInfoSpecies.innerText = `${pokemon1.species}`;
+  pokeInfoLevel.innerText = `${pokemon1.lv}`;
   pokeInfoImg.src = POKEMON_METADATA[`${pokemon1.species}`].sprites.front.url;
   pokeInfoHeight.innerText = `${POKEMON_METADATA[`${pokemon1.species}`].height/10}m.`;
   pokeInfoWeight.innerText = `${POKEMON_METADATA[`${pokemon1.species}`].weight*10}g.`;
   pokeInfoId.innerText = `${POKEMON_METADATA[`${pokemon1.species}`].id}`;
   let pkmnFightingStats = POKEMON_METADATA[`${pokemon1.species}`]["stats"];
   pokeFightingStats.innerHTML = '';
-  for (const [key, value] of Object.entries(pkmnFightingStats)){ // TODO check
+  for (const [key, value] of Object.entries(pkmnFightingStats)){
     const statList = document.createElement('li');
     statList.classList.add('stat');
     let pokeInnerHTML = `
@@ -552,26 +540,13 @@ const updatePokeInfoModal = async() => { // TODO check
   }
 }
 
-function changeSprite() { // TODO check
-  if (pokeInfoImg.src == POKEMON_METADATA[`${pokemon1.species}`].sprites.front.url) {
-    pokeInfoImg.src = POKEMON_METADATA[`${pokemon1.species}`].sprites.back.url
-  }
-  else {
-    pokeInfoImg.src = POKEMON_METADATA[`${pokemon1.species}`].sprites.front.url;
-  }
-}
-
 //Official Artwork Modals
-const officialArtworkElement = document.getElementsByClassName('official-artwork')[0]; // TODO check
+const officialArtworkElement = document.getElementsByClassName('official-artwork')[0];
 
 function showArtworkModal() {
   officialArtworkElement.src = POKEMON_METADATA[`${pokemon1.species}`].sprites.officialArtwork.url;
   $('#modal-artwork').modal('show');
 }
-
-//Tooltip handler
-const tooltip = document.getElementById('pokemon-image-0');
-tooltip.title = `${pokemon1.species}'s stats!`;
 
 //Day to day events
 const events = [
@@ -582,7 +557,7 @@ const events = [
   "There's a special discount today at the PokePark if you bring along your Pokémon! You should check it out!",
   "A mysterious Pokémon has apparently been sighted near the beach! You should be careful if you plan on going there!",
   "A new festival is in town! Wanna go check it out?",
-  "It's Chesto Berry season! They're {pokemon1.customName}'s favorite! You should go grab some!" // TODO .replace
+  "It's Chesto Berry season! They're {pokemon1.customName}'s favorite! You should go grab some!"
 ];
 
 //About & FAQs Modals
@@ -595,7 +570,7 @@ function showFAQsModal() {
 }
 
 //Intro loader
-$(window).on('load',function() { // TODO check
+$(window).on('load',function() {
   $('#modal-notification').modal('hide');
   $('#modal-faq').modal('hide');
   $('#modal-artwork').modal('hide');
@@ -657,7 +632,6 @@ function continueIntro() {
 
   const [title, text] = introMessages[msgIndex];
 
-  //TODO check
   let introText = text.replace("{playerName}", playerName).replace("{pokemon1.customName}", pokemon1.customName);
 
   const introNewModalTitle = document.getElementById('intro-msg-1-toggle');
@@ -692,9 +666,15 @@ function newDay() {
   $('#daily-event').text(eventsText);
   $('#daily-modal').modal('show');
 
-  pokemon1.hunger < 50 && showNotif("hungry"); // TODO check
-  pokemon1.rest < 50 && showNotif("tired");
-  pokemon1.fun < 50 && showNotif("bored");
+  if (pokemon1.hunger < 50) {
+    showNotif("hungry");
+  }
+  if (pokemon1.rest < 50) {
+    showNotif("tired");
+  }
+  if (pokemon1.fun < 50) {
+    showNotif("bored");
+  }
 
   getStats();
 }
