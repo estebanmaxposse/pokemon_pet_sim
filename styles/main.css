@@ -104,7 +104,8 @@ a {
     color: white; }
 
 ul {
-  padding: 0; }
+  padding: 0;
+  list-style: none; }
 
 #pokemon-image-0 {
   width: 60%;
@@ -179,6 +180,7 @@ ul {
   justify-items: center; }
 
 .gauge {
+  position: relative;
   display: flex;
   flex-direction: column; }
   .gauge::-webkit-meter-bar {
@@ -187,6 +189,25 @@ ul {
   .gauge::-webkit-meter-optimum-value {
     background-color: green;
     background-size: 100% 100%; }
+
+.stat-arrow {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  left: 25%;
+  top: 50%;
+  display: none; }
+
+label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+
+.fa-angles-up {
+  color: red; }
+
+.fa-angles-down {
+  color: blue; }
 
 .main-buttons {
   grid-area: buttons;
@@ -274,6 +295,17 @@ ul {
 
 #modal-artwork-content {
   background-color: white; }
+
+#modal-about ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, auto); }
+  #modal-about ul li a {
+    display: flex;
+    align-items: center; }
+
+#modal-about-body {
+  padding: .5rem; }
 
 @media (min-device-width: 683px) {
   body {

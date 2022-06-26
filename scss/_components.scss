@@ -48,6 +48,7 @@
 }
 
 .gauge {
+  position: relative;
   display: flex;
   flex-direction: column;
   &::-webkit-meter-bar {
@@ -58,6 +59,29 @@
     background-color: green;
     background-size: 100% 100%;
   }
+}
+
+.stat-arrow {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  left: 25%;
+  top: 50%;
+  display: none;
+}
+
+label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fa-angles-up {
+  color: red;
+}
+
+.fa-angles-down {
+  color: blue;
 }
 
 .main-buttons {
@@ -124,8 +148,6 @@
   background-color: red;
 }
 
-
-
 .stat-list {
   list-style-type: none;
   .stat {
@@ -178,4 +200,21 @@
 
 #modal-artwork-content {
   background-color: white;
+}
+
+#modal-about {
+  ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2,auto);
+    li {
+      a {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+  &-body {
+    padding: .5rem;
+  }
 }
