@@ -12,7 +12,7 @@ const POKEMON_METADATA = {
     	},
       "eating": "",
     },
-    "evolvesAt": 2,
+    "evolvesAt": 7,
     "evolvesInto": "pikachu",
   },
   "pikachu": {
@@ -24,7 +24,7 @@ const POKEMON_METADATA = {
         "count": 10,
       },
     },
-    "evolvesAt": 3,
+    "evolvesAt": 16,
     "evolvesInto": "raichu",
   },
   "raichu": {
@@ -81,11 +81,10 @@ const raichuIdle = new FatPixels({
 });
 
 class Pokemon {
-  constructor(species, gender, sprite) {
+  constructor(species, gender) {
     this.species = species;
     this.customName = species;
     this.gender = gender;
-    this.sprite = sprite;
     this.exp = 0;
     this.lv = 1;
     this.hunger = getRandomInt();
@@ -114,7 +113,7 @@ class Pokemon {
     this.happiness = this.rest + this.fun + this.happiness;
     this.happiness /= 3;
 
-    if (this.happiness >= 45) {
+    if (this.happiness >= 60) {
       this.addExp();
     }
   }
@@ -173,15 +172,17 @@ class Pokemon {
       return "Their";
     }
   }
+}
 
-  //once I know how to get sprites from APIs I'll finish this function
-  getSprite() {
-    if (this.species === "pichu") {
-      return "https://i.imgur.com/ROK2yzd.png";
-    }
+//Days
+class Day {
+  constructor(number, x) {
+    this.number = parseInt(number);
+    this.event = events[parseInt(x)];
   }
 }
 
+//We create the first Pokemon
 const pokemon1 = new Pokemon("pichu", GENDER_MALE, "no_sprite_yet", 0, 1, getRandomInt(), getRandomInt(), getRandomInt());
 
 //Evolution data
@@ -223,31 +224,25 @@ function getRandomInt(min=0, max=100) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-//Days
-class Day {
-  constructor(number, x) {
-    this.number = parseInt(number);
-    this.event = events[parseInt(x)];
-  }
-}
-
 // Sound effects
 const buttonFX = new Audio("emerald_0005.wav");
-const audibleButton = document.querySelectorAll("button");
-const musicToggle = document.getElementById('music-toggle');
 const mainBG = new Audio("bg-theme_mixdown.mp3");
 const pichuCry = new Audio("172.wav");
 const pikachuCry = new Audio("025.wav");
 const raichuCry = new Audio("026.wav");
 const statUpFX = new Audio("stats_up.mp3");
 const statDownFX = new Audio("stats_down.mp3");
+const evolutionSFX = new Audio("31 Fanfare- Evolution.mp3");
+const levelUpSFX = new Audio("Pokémon Level Up Sound Effect.mp3");
 
+const audibleButton = document.querySelectorAll("button");
 audibleButton.forEach(button => {
   button.addEventListener("click", () => {
     buttonFX.play();
   });
 });
 
+const musicToggle = document.getElementById('music-toggle');
 musicToggle.onclick = () => {
   if (mainBG.paused) {
     mainBG.play();
@@ -260,9 +255,6 @@ function music_stop() {
   mainBG.pause();
   mainBG.currentTime = 0;
 }
-
-const evolutionSFX = new Audio("31 Fanfare- Evolution.mp3");
-const levelUpSFX = new Audio("Pokémon Level Up Sound Effect.mp3");
 
 function playSFX(SFXtype) {
   if (SFXtype === "evolution") {
@@ -290,6 +282,7 @@ function playCry() {
   }
 }
 
+// TODO: maybe a boolean can make this shorter
 function playStatFX(stat) {
   if (stat === "up") {
     statUpFX.play();
@@ -475,7 +468,7 @@ const introModal = document.getElementById('intro-msg-1');
 
 const playerData = JSON.parse(localStorage.getItem('playerData'));
 
-//store pokemon stats
+//Store pokemon stats
 function storeStats() {
   let storePokemon = JSON.stringify(pokemon1);
   localStorage.setItem("storePokemon", storePokemon);
@@ -495,7 +488,7 @@ function loadStatsCache() {
   pokemon1.happiness = storedPokemon.happiness;
 }
 
-//retrieve player's and pokemon's names
+//Retrieve player's and pokemon's names
 let playerName = "Player";
 pokemon1.customName = "Pichu";
 if (playerData != null) {
@@ -620,9 +613,6 @@ $(window).on('load',function() { // TODO check
   loadStatsCache();
   loadPokemonSprite(pokemon1.species, "idle");
 
-  //replace text in day to day events
-  let eventsText = events[7].replace("{pokemon1.customName}", pokemon1.customName);
-
   tooltip.title = `${pokemon1.species}'s stats!`;
   tooltipTriggerList = new bootstrap.Tooltip(tooltip);
 
@@ -661,14 +651,13 @@ function continueIntro() {
     else {
       pokemon1.customName = name || "Pichu";
       storeStats();
-      let eventsText = events[7].replace("{pokemon1.customName}", pokemon1.customName);
     }
     nameInput.value = "";
   }
 
   const [title, text] = introMessages[msgIndex];
 
-  // TODO check
+  //TODO check
   let introText = text.replace("{playerName}", playerName).replace("{pokemon1.customName}", pokemon1.customName);
 
   const introNewModalTitle = document.getElementById('intro-msg-1-toggle');
@@ -677,7 +666,7 @@ function continueIntro() {
   introNewModalTitle.innerText = title;
   introModalText.innerText = introText;
 
-  // Allow user to write input
+  //Allow user to write input
   document.getElementById('player-name-input').style.display = (msgIndex === 2 || msgIndex === 5) ? "block" : "none";
 
   msgIndex++;
@@ -696,9 +685,11 @@ function newDay() {
   pokemon1.addFun(-20);
   storeStats();
 
+  const eventsText = events[getRandomInt(0, events.length - 1)].replace("{pokemon1.customName}", pokemon1.customName);
+
   dayCounter++;
   $('#daily-number').text(`Day ${dayCounter}`);
-  $('#daily-event').text(events[getRandomInt(0, events.length - 1)]);
+  $('#daily-event').text(eventsText);
   $('#daily-modal').modal('show');
 
   pokemon1.hunger < 50 && showNotif("hungry"); // TODO check
