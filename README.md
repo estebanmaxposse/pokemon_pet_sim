@@ -4,4 +4,3 @@ A small interactive Pokémon Pet Simulator! You'll be able to play, feed and spe
 
 Right now there's only Pichu as an available pet, but there are plans to add more options in the future!
 
-Currently working on: Day to day system.
